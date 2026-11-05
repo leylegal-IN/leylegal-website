@@ -19,19 +19,22 @@ const home = VERCEL_PROJECT_PRODUCTION_URL ? `https://${VERCEL_PROJECT_PRODUCTIO
 // Where this particular deploy is served (preview deploys have their own address).
 const here = production || !VERCEL_URL ? home : `https://${VERCEL_URL}`;
 
-const file = join(dir, 'index.html');
-let html = await readFile(file, 'utf8');
-const swaps = [
+async function swap(name, pairs) {
+  const file = join(dir, name);
+  let text = await readFile(file, 'utf8');
+  for (const [from, to] of pairs) {
+    if (!text.includes(from)) throw new Error(`build: expected to find ${from} in ${file}`);
+    text = text.replace(from, to);
+  }
+  await writeFile(file, text);
+}
+await swap('index.html', [
   ['<link rel="canonical" href="https://leylegal.in/">', `<link rel="canonical" href="${home}/">`],
   ['<meta property="og:url" content="https://leylegal.in/">', `<meta property="og:url" content="${here}/">`],
   ['<meta property="og:image" content="https://leylegal.in/og.png">', `<meta property="og:image" content="${here}/og.png">`],
-  ["Join the waitlist: https://leylegal.in'", `Join the waitlist: ${home}'`],
-];
-for (const [from, to] of swaps) {
-  if (!html.includes(from)) throw new Error(`build: expected to find ${from} in ${file}`);
-  html = html.replace(from, to);
-}
-await writeFile(file, html);
+]);
+// The WhatsApp "tell a colleague" message links to the production site.
+await swap('app.js', [["Join the waitlist: https://leylegal.in'", `Join the waitlist: ${home}'`]]);
 
 await writeFile(join(dir, 'robots.txt'), production
   ? `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${home}/sitemap.xml\n`
