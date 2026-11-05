@@ -270,9 +270,9 @@
   async function submit() { send.classList.add('press'); await wait(200); resetComposer(); show('q'); await wait(420); }
   function setThread(html) { thread.innerHTML = html; thread.scrollTop = 0; thread.classList.remove('out'); }
   const I = {
-    check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-    ext: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
-    alert: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+    check: '<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    ext: '<svg aria-hidden="true" focusable="false" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
+    alert: '<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
   };
   const status = text => `<div class="status r" data-s="status" hidden><span class="spinner"></span><span class="okic">${I.check}</span><span class="st">${text}</span></div>`;
 
@@ -330,7 +330,7 @@
       ${status('Matching against the IPC–BNS table')}
       <div class="map r" data-s="map" hidden>
         <div class="sec old"><span class="k">IPC · 1860</span><span class="num">302</span><span class="cap" lang="hi">हत्या के लिए दंड</span></div>
-        <svg class="arrow" viewBox="0 0 48 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h42"/><path d="m38 2 6 6-6 6"/></svg>
+        <svg aria-hidden="true" focusable="false" class="arrow" viewBox="0 0 48 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h42"/><path d="m38 2 6 6-6 6"/></svg>
         <div class="sec new" data-s="new"><span class="k">BNS · 2023</span><span class="flap big" data-s="nflap"></span><span class="cap" lang="hi">हत्या के लिए दंड</span></div>
       </div>
       <div class="row r" data-s="def" lang="hi" hidden><span class="k">परिभाषा</span><span>हत्या की परिभाषा <mark class="hl" data-s="hl3"><b>धारा 101, BNS</b></mark> में है <span class="was">(पहले धारा 300, IPC)</span></span></div>
@@ -411,7 +411,7 @@
         <div class="field"><label class="lab" for="${p}-name">Your name</label><input class="input" id="${p}-name" name="name" autocomplete="name" maxlength="80" placeholder="e.g. Anjali Sinha" aria-describedby="${p}-e-name"><p class="err" id="${p}-e-name" hidden></p></div>
         <div class="field"><label class="lab" for="${p}-email">Email</label><input class="input" id="${p}-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="you@example.com" aria-describedby="${p}-e-email"><p class="err" id="${p}-e-email" hidden></p></div>
         <fieldset class="field" aria-describedby="${p}-e-role"><legend>I am</legend><div class="seg"><label><input type="radio" name="role" value="advocate"><span>Advocate</span></label><label><input type="radio" name="role" value="student"><span>Law student</span></label></div><p class="err" id="${p}-e-role" hidden></p></fieldset>
-        <button class="btn-primary submit" type="submit"><span>Join the waitlist</span><svg class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
+        <button class="btn-primary submit" type="submit"><span>Join the waitlist</span><svg aria-hidden="true" focusable="false" class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
       </div>
       <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="err form-err" id="${p}-e-form" role="alert" hidden></p>
@@ -422,7 +422,7 @@
       <p>We’ll email <span class="mono done-email"></span> when your access opens.</p>
       <div class="done-actions">
         <a class="btn-ghost share" target="_blank" rel="noopener">Tell a colleague on WhatsApp</a>
-        <span class="stamp stamp-lg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Received</span>
+        <span class="stamp stamp-lg"><svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Received</span>
       </div>
     </div>`;
   const EMAIL = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i; // same rule as api/waitlist.js
