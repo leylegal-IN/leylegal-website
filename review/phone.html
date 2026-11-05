@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ley Legal · Phone views (v3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+/* Phone board for comp v3: four moments at 390×844, each a live frame of index.html. */
+:root{--paper:#F7F5F0;--mat:#E9E4DA;--ink:#191917;--ink-2:#36342F;--muted:#67635A;--rule:#E5E0D5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.board{max-width:1920px;margin:0 auto;padding:44px 48px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+h1{margin:0;font:400 40px/1.05 "Newsreader",Georgia,serif;letter-spacing:-.02em}
+.meta{margin:0;font:500 13px/1.6 "IBM Plex Mono",monospace;color:var(--muted);text-align:right}
+.row{display:flex;justify-content:center;gap:40px;padding-top:36px}
+figure{margin:0}
+.phone{width:414px;padding:12px;border-radius:44px;background:var(--mat)}
+.phone iframe{display:block;width:390px;height:844px;border:0;border-radius:32px;background:var(--paper)}
+figcaption{margin-top:14px;text-align:center;font-size:14px;color:var(--ink-2)}
+figcaption b{font:500 12px "IBM Plex Mono",monospace;color:var(--muted);margin-right:6px}
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <h1>Ley Legal homepage · on a phone</h1>
+    <p class="meta">Comp v3 · Legora-style · 4 Nov 2026<br>390 × 844</p>
+  </header>
+  <div class="row">
+    <figure><div class="phone"><iframe src="/?shot&take=3&variant=1" title="First screen"></iframe></div><figcaption><b>1</b>First screen: close-up film and headline</figcaption></figure>
+    <figure><div class="phone"><iframe src="/?shot&view=story&story=4" title="Layer story"></iframe></div><figcaption><b>2</b>Scroll: the layers stack</figcaption></figure>
+    <figure><div class="phone"><iframe src="/?shot&view=demo&scene=1&at=end" title="Demo"></iframe></div><figcaption><b>3</b>The live demo</figcaption></figure>
+    <figure><div class="phone"><iframe src="/?shot&view=close" title="Waitlist"></iframe></div><figcaption><b>4</b>The waitlist block</figcaption></figure>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "public/index.html",
+          "review/board.html",
+          "review/phone.html",
+          "review/responsive.html"
+        ],
+        "createdAt": "2026-11-04T13:45:49.838Z",
+        "reason": "user confirmed: chose 'Keep warm paper' over white on 4 Nov 2026; same bare-act background across the site and its review boards"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-11-04T13:54:41.238Z",
+        "reason": "Claude judgment: the only cramped-padding finding in this file is the full-bleed hero, whose children are absolutely positioned film layers; the text block has its own padding. Checker cannot scope the ignore to one element."
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "public/404.html"
+        ],
+        "createdAt": "2026-11-04T14:50:49.592Z",
+        "reason": "user confirmed: chose 'Keep warm paper' over white on 4 Nov 2026; the 404 page uses the same background as the site"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "public/privacy.html"
+        ],
+        "createdAt": "2026-11-04T14:56:48.562Z",
+        "reason": "user confirmed: chose 'Keep warm paper' over white on 4 Nov 2026; the privacy page uses the same background as the site"
+      }
+    ]
+  }
+}

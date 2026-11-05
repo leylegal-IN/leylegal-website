@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ley Legal · Indian law, in your language</title>
+<meta name="description" content="Legal research for Indian advocates and law students. Find judgments by the facts of your case, check any case by its CNR, and match IPC to BNS, in English, Hindi or Hinglish.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="canonical" href="https://leylegal.in/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- Link previews (WhatsApp, LinkedIn, X). Scrapers need absolute addresses: on every Vercel deploy,
+     scripts/build.mjs swaps https://leylegal.in below for the address that deploy is actually served on. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ley Legal">
+<meta property="og:url" content="https://leylegal.in/">
+<meta property="og:title" content="Ley Legal · Indian law, in your language">
+<meta property="og:description" content="Find judgments by the facts of your case, check any case by its CNR, and match old sections to new. In English, Hindi or Hinglish.">
+<meta property="og:image" content="https://leylegal.in/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Devanagari:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+/* Ley Legal homepage (from design comp v3, Legora-style motion).
+   The first screen stands on its own (the client's one-screen brief). Below it, for anyone who scrolls:
+   a pinned layer story, the live demos, and a closing waitlist block. Tokens as in PLAN.md section 6. */
+:root{
+  --paper:#F7F5F0; --mat:#EEEAE1; --surface:#FFFFFF; --film:#FCFBF8;
+  --ink:#191917; --ink-2:#36342F; --muted:#67635A; --faint:#7A766C;
+  --rule:#E5E0D5; --rule-2:#D5CFC2; --bubble:#F1EEE7;
+  --ok:#1F7A4D; --ok-bg:#E6F1E9;
+  --warn:#94560A; --warn-ink:#57360A; --warn-bg:#F9EFDC;
+  --error:#B3261E; --hl:#F3E29C;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --serif-hi:"Tiro Devanagari Hindi", "Newsreader", serif;
+  --sans:"IBM Plex Sans", "IBM Plex Sans Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"IBM Plex Mono", "IBM Plex Sans Devanagari", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.2,1.35,.35,1);
+  --stage-h:500px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:lang(hi){line-height:1.7}
+::selection{background:#E6DFCF}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+a{color:inherit}
+button{font:inherit}
+mark{background:none;color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{width:100%;max-width:1240px;margin-inline:auto;padding-inline:20px}
+@media (min-width:768px){.wrap{padding-inline:40px}}
+.eyebrow{margin:0 0 16px;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h2.sec-title{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem, 1rem + 2.6vw, 3.4rem);line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+
+/* ---------- Buttons ---------- */
+.btn-ghost{height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--ink);font-size:14.5px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:background-color .18s,border-color .18s,transform .35s var(--spring)}
+.btn-ghost:hover{background:var(--surface);border-color:var(--ink)}
+.btn-primary{height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--ink);color:#fff;font-size:15.5px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;transition:background-color .18s,transform .35s var(--spring)}
+.btn-primary:hover{background:#000}
+.btn-primary:active{transform:scale(.97)}
+.btn-primary svg{transition:transform .25s var(--ease)}
+.btn-primary:hover svg{transform:translateX(3px)}
+.btn-primary[aria-busy="true"]{pointer-events:none}
+.btn-primary .spin{display:none;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .7s linear infinite}
+.btn-primary[aria-busy="true"] .spin{display:block}
+.btn-primary[aria-busy="true"] .arw{display:none}
+.btn-sm{height:40px;padding:0 18px;font-size:14.5px;gap:0}
+
+/* ---------- Nav: transparent over the film, solid once you scroll ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;height:64px;border-bottom:1px solid transparent;transition:background-color .35s,border-color .35s}
+.nav.solid{background:rgba(247,245,240,.97);border-bottom-color:var(--rule)}
+.nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wordmark{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:-.015em;text-decoration:none;color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:6px}
+.nav-link{height:40px;padding:0 14px;display:inline-flex;align-items:center;border:0;background:none;border-radius:999px;color:var(--ink-2);font-size:14.5px;font-weight:500;text-decoration:none;cursor:pointer;transition:background-color .18s}
+.nav-link:hover{background:rgba(25,25,23,.05)}
+.wordmark,.nav-link,.btn-sm{white-space:nowrap}
+@media (max-width:640px){.nav-how{display:none}.nav-link{padding:0 10px}}
+@media (max-width:380px){.nav-x{display:none}.wordmark{font-size:21px}.nav-r{gap:2px}}
+
+/* ---------- Hero: a film of the product in close-up ---------- */
+/* The film fills the space between the nav and the headline. JS measures that zone (--copy-h, --zone-h);
+   every close-up is sized in --u, the smaller of 1vw and 1/30 of the zone, so it fits any screen shape. */
+.hero{position:relative;height:100svh;overflow:hidden;background:var(--film);--copy-h:380px;--zone-h:320px;--u:min(1vw, calc(var(--zone-h) / 30))}
+.film{position:absolute;inset:0;overflow:hidden}
+/* A shot racks into focus (blur → sharp) as it fades in; once faded out it leaves rendering entirely. */
+.take{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-start;padding:64px 0 calc(var(--copy-h) + 12px) 8vw;opacity:0;visibility:hidden;filter:blur(10px);transition:opacity .9s var(--ease),filter 1s var(--ease),visibility 0s linear 1s}
+.take.c{justify-content:center;padding:64px 4vw calc(var(--copy-h) + 12px)}
+.take.on{opacity:1;visibility:visible;filter:none;transition-delay:0s}
+.cam{will-change:transform}
+.take.on .cam{animation:drift var(--dur,5s) linear both}
+.film.paused .cam{animation-play-state:paused}
+.t-compose{--x0:1.5vw;--y0:1vh;--s0:1.07;--x1:-1vw;--y1:-1vh;--s1:1}
+.t-cite{--x0:-2vw;--y0:0;--s0:1.1;--x1:1vw;--y1:-1vh;--s1:1.02}
+.t-flap{--x0:0;--y0:2vh;--s0:1.12;--x1:0;--y1:-1vh;--s1:1.02}
+.t-cal{--x0:2vw;--y0:-1vh;--s0:1.08;--x1:-1vw;--y1:1vh;--s1:1}
+.t-hindi{--x0:1vw;--y0:1vh;--s0:1.06;--x1:-1vw;--y1:-1vh;--s1:1}
+@keyframes drift{from{transform:translate3d(var(--x0),var(--y0),0) scale(var(--s0))}to{transform:translate3d(var(--x1),var(--y1),0) scale(var(--s1))}}
+.pan{position:relative;transition:transform .4s var(--ease)}
+/* Close-up 1: the composer, typing */
+.m-composer{display:inline-flex;align-items:center;gap:.35em;white-space:nowrap;padding:.3em .3em .3em .7em;border:2px solid var(--rule-2);border-radius:999px;background:var(--surface);font-size:clamp(22px,calc(var(--u) * 6.2),118px);line-height:1.2;letter-spacing:-.01em;box-shadow:0 30px 80px -40px rgba(25,25,23,.25)}
+.m-caret{display:inline-block;width:.05em;height:1em;background:var(--ink);margin-left:-.1em;animation:blink 1.05s steps(1) infinite}
+.m-send{display:grid;place-items:center;width:1.15em;height:1.15em;border-radius:50%;background:var(--ink);color:#fff;flex:none}
+.m-send svg{width:.55em;height:.55em}
+.m-hindi{display:inline-flex;align-items:center;white-space:nowrap;font-family:var(--serif-hi);font-size:clamp(26px,calc(var(--u) * 7),132px);line-height:1.3}
+/* Close-up 2: the authority, stamped */
+.m-cite{display:flex;flex-direction:column;align-items:flex-start;gap:.15em}
+.m-k{font-family:var(--mono);font-size:clamp(10px,calc(var(--u) * 1.25),22px);font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.m-case{font-family:var(--serif);font-style:italic;font-size:clamp(24px,calc(var(--u) * 6.3),116px);line-height:1.05;letter-spacing:-.015em;white-space:nowrap}
+.m-row{display:flex;align-items:center;gap:1.2em;margin-top:.3em;font-size:clamp(12px,calc(var(--u) * 1.9),34px)}
+.m-citation{font-family:var(--mono);color:var(--muted)}
+.m-stamp{display:inline-flex;align-items:center;gap:.35em;padding:.35em .6em;border:.12em solid currentColor;border-radius:.3em;outline:.05em solid currentColor;outline-offset:-.3em;color:var(--ok);font:600 1em/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:rotate(-7deg)}
+.m-stamp svg{width:.9em;height:.9em}
+.m-stamp.in{opacity:.94;animation:stamp .55s var(--spring) backwards}
+/* Close-up 3: the split-flap board */
+.m-flapwrap{display:flex;flex-direction:column;align-items:center;gap:.9em}
+.flap.huge{gap:clamp(2px,calc(var(--u) * .45),8px)}
+.flap.huge i{width:clamp(18px,calc(var(--u) * 6.2),96px);height:clamp(26px,calc(var(--u) * 9),140px);border-radius:clamp(4px,calc(var(--u) * .6),10px);font-size:clamp(15px,calc(var(--u) * 5.4),84px)}
+.m-flapcap{font-family:var(--mono);font-size:clamp(10px,calc(var(--u) * 1.25),22px);font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* Close-up 4: the tear-off calendar */
+.m-cal{display:flex;align-items:center;gap:calc(var(--u) * 2.4)}
+.m-tile{flex:none;width:clamp(64px,calc(var(--u) * 14),220px);border-radius:clamp(9px,calc(var(--u) * 1.4),22px);overflow:hidden;border:2px solid var(--ink);background:var(--surface);text-align:center;perspective:600px;box-shadow:0 30px 80px -40px rgba(25,25,23,.3)}
+.m-tile span{display:block;background:var(--ink);color:#fff;font-family:var(--mono);font-size:clamp(10px,calc(var(--u) * 1.7),28px);font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.3em 0 .25em}
+.m-tile b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(36px,calc(var(--u) * 9.5),150px);line-height:1.15;transform-origin:50% 0}
+.m-tile b.flip{animation:tear .14s ease-in}
+.m-calcopy{display:flex;flex-direction:column;gap:.3em}
+.m-date{font-family:var(--serif);font-size:clamp(20px,calc(var(--u) * 5.2),96px);line-height:1.05;letter-spacing:-.015em;white-space:nowrap}
+/* Lens: the close-up falls away at the frame edges (a cheap mask, no live blur), and fades into paper behind the headline */
+.take{--lens:radial-gradient(ellipse 58% calc(var(--zone-h) * .8) at 50% calc(70px + var(--zone-h) / 2),#000 55%,transparent 100%);-webkit-mask-image:var(--lens);mask-image:var(--lens)}
+.film-fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,var(--film) 0,rgba(252,251,248,0) 13%,rgba(252,251,248,0) 44%,rgba(247,245,240,.93) 64%,var(--paper) 78%)}
+.hero-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 20px clamp(36px,7vh,76px);text-align:center}
+.hero h1{margin:0 auto;font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem, min(.9rem + 4.1vw, 8.5svh), 5.2rem);line-height:1.02;letter-spacing:-.025em;display:flex;flex-direction:column;align-items:center}
+.line{display:block;height:calc(1.02em + .42em);overflow:hidden;padding:.24em .1em .18em;margin:-.24em -.1em -.18em}
+.li{display:block;height:1.02em;animation:lineUp 1.1s var(--ease) backwards;animation-delay:var(--d,0ms)}
+.roll{display:inline-grid;justify-items:center;vertical-align:top;height:1.02em}
+.rv{grid-area:1/1;white-space:nowrap;height:1.02em}
+.rv:lang(hi){font-family:var(--serif-hi);letter-spacing:0;font-size:.94em;line-height:inherit}
+.rv .w{display:inline-block;vertical-align:top;transition:transform .8s var(--ease),opacity .55s var(--ease),filter .7s var(--ease);transition-delay:calc(var(--i) * 60ms)}
+.rv:not(.is-on) .w{transform:translateY(110%);opacity:0;filter:blur(8px)}
+.rv.is-out .w{transform:translateY(-110%);opacity:0;filter:blur(8px)}
+.rv.no-t .w{transition:none !important}
+.hero-sub{margin:18px auto 0;max-width:44ch;font-size:18px;line-height:1.55;color:var(--ink-2);text-wrap:balance}
+.hero-cta{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero-cta .btn-ghost{height:52px;padding:0 22px;font-size:15.5px;background:rgba(255,255,255,.6)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes lineUp{from{transform:translateY(112%)}}
+.enter{animation:rise .9s var(--ease) backwards;animation-delay:var(--d,0ms)}
+@media (max-width:640px){
+  .take{padding-left:7vw}
+  .hero-sub{font-size:16.5px;margin-top:14px}
+  .hero-cta{margin-top:20px}
+  .hero-cta .btn-primary,.hero-cta .btn-ghost{flex:1 1 100%;max-width:340px}
+}
+/* Short screens: tighten the headline block so the film keeps room above it */
+@media (max-height:700px){
+  .hero-copy{padding-bottom:24px}
+  .hero-sub{margin-top:12px}
+  .hero-cta{margin-top:18px}
+}
+/* Landscape phones: headline on the left, film on the right */
+@media (orientation:landscape) and (max-height:520px){
+  .hero{--u:min(.5vw, calc(var(--zone-h) / 28))}
+  .take,.take.c{justify-content:center;padding:64px 3vw 12px 50vw}
+  .take{--lens:linear-gradient(to right,transparent 48%,#000 58%)}
+  .hero-copy{top:64px;right:auto;width:50%;display:flex;flex-direction:column;justify-content:center;text-align:left;padding:4px 16px 12px max(20px, env(safe-area-inset-left))}
+  .hero-copy .eyebrow{margin-bottom:8px}
+  .hero h1{margin:0;align-items:flex-start;font-size:clamp(1.7rem, 9.5svh, 2.6rem)}
+  .roll{justify-items:start}
+  .hero-sub{margin:10px 0 0;max-width:36ch;font-size:15px;line-height:1.5;text-wrap:pretty}
+  .hero-cta{justify-content:flex-start;margin-top:14px;gap:8px}
+  .hero-cta .btn-primary,.hero-cta .btn-ghost{flex:0 0 auto;height:44px;padding:0 18px;font-size:14.5px}
+  .film-fade{background:linear-gradient(to right,var(--paper) 0,var(--paper) 44%,rgba(247,245,240,0) 56%),linear-gradient(to bottom,var(--film) 0,rgba(252,251,248,0) 20%)}
+}
+/* The smallest landscape phones (around 568 × 320): drop the small label, tighten the type */
+@media (orientation:landscape) and (max-height:360px){
+  .hero-copy{width:56%}
+  .take,.take.c{padding-left:56vw}
+  .take{--lens:linear-gradient(to right,transparent 56%,#000 66%)}
+  .film-fade{background:linear-gradient(to right,var(--paper) 0,var(--paper) 52%,rgba(247,245,240,0) 62%),linear-gradient(to bottom,var(--film) 0,rgba(252,251,248,0) 20%)}
+  .hero-copy .eyebrow{display:none}
+  .hero h1{font-size:clamp(1.5rem, 9svh, 2.2rem)}
+  .hero-sub{margin-top:8px;font-size:14px}
+  .hero-cta{margin-top:12px}
+  .hero-cta .btn-primary,.hero-cta .btn-ghost{height:40px;padding:0 16px;font-size:14px}
+}
+
+/* ---------- Story: five layers, pinned while you scroll ---------- */
+.story{position:relative;background:radial-gradient(ellipse 60% 50% at 62% 58%,#FFFFFF 0%,rgba(255,255,255,0) 70%),var(--paper)}
+.story-head{text-align:center;padding:clamp(80px,12vh,140px) 20px 0}
+.story-head p.sub{margin:14px auto 0;max-width:40ch;color:var(--ink-2);font-size:17px}
+.story-track{position:relative;height:calc(100svh + 6 * 62svh)}
+.story-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+.story-grid{height:100%;display:grid;grid-template-columns:minmax(300px,380px) 1fr;align-items:center;gap:40px;padding-top:64px}
+.layers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.layer{width:max-content;max-width:360px;border-radius:20px;background:var(--mat);color:var(--ink-2);transition:background-color .4s var(--ease),color .4s var(--ease)}
+.layer.on{width:360px;background:var(--ink);color:#F4F1EA}
+.lbtn{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:9px 9px 9px 16px;border:0;background:none;color:inherit;font-size:14.5px;font-weight:500;text-align:left;cursor:pointer}
+.lbtn .ln{font-family:var(--mono);font-size:11px;opacity:.7}
+.lbtn .lt{flex:1}
+.plus{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(25,25,23,.07);transition:transform .45s var(--spring),background-color .3s}
+.layer.on .plus{transform:rotate(45deg);background:rgba(255,255,255,.12)}
+.ldesc{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.ldesc>div{overflow:hidden}
+.layer.on .ldesc{grid-template-rows:1fr}
+.ldesc p{margin:0;padding:2px 18px 16px 16px;font-size:14px;line-height:1.55;color:var(--muted)}
+.layer.on .ldesc p{color:rgba(244,241,234,.8)}
+.story-cta{margin-top:18px;opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none}
+.story-cta.on{opacity:1;transform:none;pointer-events:auto}
+.story-progress{position:absolute;left:40px;bottom:30px;width:120px;height:6px;border-radius:3px;background:var(--rule-2);overflow:hidden}
+.story-progress i{display:block;height:100%;background:var(--ink);transform:scaleX(0);transform-origin:left center}
+.story-count{display:none}
+/* The stack itself: CSS 3D slabs in an isometric view. Its size follows the screen's width and height;
+   everything inside is in cqw (a % of the stack), so the proportions hold at any size. */
+.iso-wrap{position:relative;width:clamp(150px, calc((100svh - 155px) * .77), min(360px, 72vw));aspect-ratio:1;margin:0 auto;perspective:2600px;container-type:inline-size}
+.iso{position:absolute;inset:19% 0 -19% 0;transform-style:preserve-3d;--gap:14cqw;transform:rotateX(57deg) rotateZ(calc(-32deg - var(--sp,0) * 16deg))}
+.iso.closed{--gap:7.2cqw}
+.iso-floor{position:absolute;inset:6%;border-radius:40px;background:rgba(25,25,23,.18);filter:blur(30px);transform:translateZ(-40px)}
+.slab{position:absolute;inset:0;transform-style:preserve-3d;--z:calc(var(--i) * var(--gap));transform:translateZ(calc(var(--z) + 460px));transition:transform 1.05s var(--spring)}
+.slab.placed{transform:translateZ(var(--z))}
+.slab.active{transform:translateZ(calc(var(--z) + 5.5cqw))}
+.slab>*{opacity:0;transition:opacity .45s var(--ease),background-color .45s,box-shadow .45s}
+.slab.placed>*{opacity:1}
+.face{position:absolute;inset:0;border-radius:3.3cqw;background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px rgba(25,25,23,.08),inset 0 0 0 3px rgba(255,255,255,.6)}
+.slab.active .face{background:#fff;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.side{position:absolute;background:rgba(214,208,195,.92)}
+.side.sf{left:3.3cqw;right:0;top:100%;height:3.6cqw;transform-origin:top;transform:rotateX(-90deg)}
+.side.sr{top:3.3cqw;bottom:0;left:100%;width:3.6cqw;transform-origin:left;transform:rotateY(90deg);background:rgba(196,189,175,.92)}
+.fl{position:absolute;left:5.5cqw;bottom:5cqw;display:flex;align-items:baseline;gap:2.2cqw;font-size:max(12px,4.4cqw);font-weight:500;color:var(--muted);white-space:nowrap}
+.fl .fn{font-family:var(--mono);font-size:max(10px,3.3cqw)}
+.slab.active .fl{color:var(--ink)}
+.fl{transition:opacity .4s var(--ease)}
+.iso.closed .slab:not(.cap) .fl{opacity:0}
+.slab.cap .face{display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.slab.cap .wm{font-family:var(--serif);font-size:12.8cqw;letter-spacing:-.02em;color:var(--ink)}
+@media (max-width:899px){
+  .story-track{height:calc(100svh + 6 * 55svh)}
+  .story-grid{grid-template-columns:1fr;grid-template-rows:1fr auto;align-items:center;gap:8px;padding-top:84px;padding-bottom:64px}
+  .story-grid .iso-wrap{order:-1;width:clamp(140px, calc((100svh - 370px) * .77), min(240px, 58vw))}
+  .layers{align-items:center}
+  .layer:not(.on){display:none}
+  .layer.on{width:min(360px,100%)}
+  .story-cta{text-align:center}
+  .story-cta:not(.on){display:none}
+  .story-progress{left:50%;margin-left:-60px;bottom:24px}
+}
+/* Landscape phones and short screens: stack on the left, the open layer on the right */
+@media (orientation:landscape) and (max-height:520px){
+  .story-track{height:calc(100svh + 6 * 70svh)}
+  .story-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;align-items:center;gap:20px;padding-top:64px;padding-bottom:30px}
+  .story-grid .iso-wrap{order:-1;width:clamp(120px, calc((100svh - 64px - 50px) * .74), min(300px, 40vw))}
+  .layers{align-items:flex-start}
+  .layer:not(.on){display:none}
+  .layer.on{width:min(360px,100%)}
+  .story-cta{text-align:left}
+  .story-cta:not(.on){display:none}
+  .story-progress{left:max(20px, env(safe-area-inset-left));margin-left:0;bottom:14px}
+}
+/* Big screens: give the stack and the page a little more room */
+@media (min-width:1800px){
+  .wrap{max-width:1400px}
+  .iso-wrap{width:clamp(150px, calc((100svh - 155px) * .77), 440px)}
+}
+
+/* ---------- Demo: the live stage ---------- */
+.demo{padding-block:clamp(90px,12vh,140px) 60px}
+.demo-head{text-align:center;margin-bottom:36px}
+.exhibit{max-width:780px;margin:0 auto;background:var(--mat);border-radius:28px;padding:10px 10px 4px;transform-style:preserve-3d}
+@media (max-width:640px){
+  :root{--stage-h:540px}
+  .exhibit{border-radius:24px;padding:8px 8px 2px;margin-inline:-6px}
+}
+@media (max-width:380px){:root{--stage-h:580px}}
+@media (max-width:340px){
+  :root{--stage-h:660px}
+  .msg-user,.answer,.row{font-size:14px}
+}
+.stage{position:relative;height:var(--stage-h);background:var(--surface);border:1px solid var(--rule);border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
+.thread{flex:1;min-height:0;overflow:hidden;padding:22px 24px 10px;display:flex;flex-direction:column;gap:12px;transition:opacity .28s var(--ease),transform .28s var(--ease),filter .28s var(--ease)}
+.thread.out{opacity:0;transform:translateY(-18px);filter:blur(5px)}
+.r{opacity:0;transform:translateY(8px);transition:opacity .42s var(--ease),transform .42s var(--ease)}
+.r.in{opacity:1;transform:none}
+.tk{opacity:0;filter:blur(3px);transition:opacity .3s ease-out,filter .3s ease-out}
+.tk.on{opacity:1;filter:none}
+.msg-user{align-self:flex-end;max-width:85%;background:var(--bubble);border-radius:20px;padding:9px 16px;font-size:15px;line-height:1.5;text-wrap:pretty}
+.msg-user.r{transform:translateY(20px) scale(.96);transform-origin:100% 100%;transition:opacity .4s var(--ease),transform .55s var(--spring)}
+.msg-user.r.in{transform:none}
+.msg-user.mono{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:14.5px;letter-spacing:.03em}
+.tag{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.08em;line-height:1;background:var(--ink);color:#fff;border-radius:6px;padding:4px 6px}
+.status{display:flex;align-items:center;gap:8px;min-height:20px;font-size:13px;color:var(--muted)}
+.st{display:inline-block}
+.spinner{flex:none;width:13px;height:13px;border-radius:50%;border:1.6px solid var(--rule-2);border-top-color:var(--ink);animation:spin .75s linear infinite}
+.okic{display:none;color:var(--ok)}
+.status.done .spinner{display:none}
+.status.done .okic{display:inline-flex;animation:pop .4s var(--spring)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(0)}}
+@keyframes blink{50%{opacity:0}}
+.answer{font-size:15px;line-height:1.6;text-wrap:pretty}
+.answer b,.row b{font-weight:600}
+.was{color:var(--muted)}
+.was-line{display:block;font-size:14px}
+.k{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.k:lang(hi){font-family:var(--sans);font-size:12.5px;letter-spacing:0}
+.row{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:baseline;padding-top:12px;border-top:1px solid var(--rule);font-size:15px;line-height:1.55}
+.hl{background-image:linear-gradient(var(--hl),var(--hl));background-repeat:no-repeat;background-size:0% 62%;background-position:0 78%;padding:0 3px;margin:0 -3px;border-radius:2px;transition:background-size .7s var(--ease)}
+.hl.on{background-size:100% 62%}
+.cite{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;border:1px solid var(--rule);border-radius:16px;padding:14px 16px}
+.cite.thud{animation:thud .26s ease-out}
+@keyframes thud{35%{transform:translateY(2px) scale(.994)}}
+.cite-main{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1 1 230px}
+.case-name{font-family:var(--serif);font-style:italic;font-size:18.5px;line-height:1.25;letter-spacing:-.005em}
+.citation{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.cite-chips{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 11px;border-radius:999px;font-size:12.5px;font-weight:500;white-space:nowrap}
+.chip-link{border:1px solid var(--rule-2)}
+.chip-muted{height:24px;padding:0 9px;background:var(--bubble);color:var(--muted);font-size:11.5px}
+.stamp{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border:2px solid currentColor;border-radius:7px;outline:1px solid currentColor;outline-offset:-6px;color:var(--ok);font:600 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:rotate(-6deg)}
+.stamp.in{opacity:.94;animation:stamp .5s var(--spring) backwards}
+@keyframes stamp{0%{opacity:0;transform:rotate(-18deg) scale(2.3)}55%{opacity:.95;transform:rotate(-5deg) scale(.93)}}
+.stamp-lg{height:38px;padding:0 14px;font-size:13px}
+.done-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px}
+.done .stamp.in{animation-delay:.5s}
+.record{border:1px solid var(--rule);border-radius:16px;overflow:hidden}
+.rec-top{padding:14px 16px 12px}
+.rec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.rec-court{margin-top:2px;font-size:13.5px;color:var(--muted)}
+.rec-rows{margin:0;padding:0 16px;border-top:1px solid var(--rule)}
+.rec-rows>div{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:baseline;padding:9px 0;font-size:14.5px;line-height:1.5}
+.rec-rows>div+div{border-top:1px solid var(--rule)}
+.rec-rows dt{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rec-rows dd{margin:0}
+.next{display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--paper);border-top:1px solid var(--rule)}
+.next .k{display:block;margin-bottom:2px}
+.next .date{font-family:var(--serif);font-size:21px;line-height:1.15;letter-spacing:-.01em}
+.tile{flex:none;width:46px;border-radius:9px;overflow:hidden;border:1px solid var(--ink);background:var(--surface);text-align:center;perspective:200px}
+.tile span{display:block;background:var(--ink);color:#fff;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 0 2px}
+.tile b{display:block;font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.25;padding:1px 0 2px;transform-origin:50% 0}
+.tile b.flip{animation:tear .12s ease-in}
+@keyframes tear{50%{transform:rotateX(-85deg);opacity:.4}}
+.map{display:flex;align-items:stretch;gap:8px}
+.sec{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;border:1px solid var(--rule);border-radius:16px;padding:12px 14px;transition:border-color .4s,box-shadow .4s}
+.sec .num{font-family:var(--serif);font-size:32px;line-height:1.1;letter-spacing:-.01em}
+.sec .cap{font-size:13.5px;color:var(--muted)}
+.sec.old{background:var(--paper)}
+.sec.new .flap{margin:2px 0 1px}
+.sec.new.done{border-color:var(--ink);box-shadow:inset 0 0 0 .5px var(--ink)}
+.sec.new .cap{opacity:0;transition:opacity .4s}
+.sec.new.done .cap{opacity:1}
+.arrow{flex:none;width:36px;align-self:center;color:var(--ink)}
+.arrow path{stroke-dasharray:48;stroke-dashoffset:48;transition:stroke-dashoffset .5s var(--ease)}
+.map.go .arrow path{stroke-dashoffset:0}
+.caution{display:flex;gap:10px;align-items:flex-start;background:var(--warn-bg);color:var(--warn-ink);border-radius:14px;padding:11px 14px;font-size:14px;line-height:1.65}
+.caution.in{animation:nudge .5s var(--ease) .15s}
+@keyframes nudge{20%{transform:translateX(-4px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(1px)}}
+.caution svg{flex:none;color:var(--warn);margin-top:4px}
+.caution b{font-weight:600}
+.composer{flex:none;display:flex;align-items:flex-end;gap:8px;margin:0 12px 12px;min-height:54px;padding:6px 6px 6px 18px;border:1px solid var(--rule-2);border-radius:28px;background:var(--surface);box-shadow:0 1px 2px rgba(25,25,23,.04);transition:border-color .25s,box-shadow .25s}
+.composer.typing{border-color:var(--ink);box-shadow:0 0 0 3px rgba(25,25,23,.06)}
+.cchip{align-self:center;margin-left:-6px;animation:pop .35s var(--spring)}
+.cfield{flex:1;min-width:0;align-self:center;padding:7px 0;font-size:15px;line-height:1.45}
+.composer.is-mono .ctext{font-family:var(--mono);letter-spacing:.03em}
+.cph{color:var(--faint)}
+.caret{display:inline-block;vertical-align:-3px;width:1.5px;height:18px;margin:0 2px 0 1px;background:var(--ink);animation:blink 1.05s steps(1) infinite}
+.send{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--rule);color:#fff;transition:background-color .2s,transform .2s var(--spring)}
+.send.ready{background:var(--ink)}
+.send.press{transform:scale(.8) translateY(-2px)}
+.reel{display:flex;align-items:center;gap:6px;padding:8px 4px 0}
+.tabs{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.reel-tab{appearance:none;border:0;background:none;text-align:left;min-height:44px;padding:8px 8px 6px;border-radius:12px;color:var(--muted);cursor:pointer;transition:color .18s,background-color .18s}
+.reel-tab:hover{color:var(--ink);background:rgba(25,25,23,.035)}
+.reel-tab[aria-current="true"]{color:var(--ink)}
+.bar{display:block;height:3px;margin-bottom:9px;border-radius:3px;background:var(--rule-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink);transform:scaleX(0);transform-origin:left center}
+.reel-tab .num{margin-right:6px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.reel-tab .lbl{font-size:14px;font-weight:500;white-space:nowrap}
+.pause{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--rule-2);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .18s,transform .35s var(--spring)}
+.pause:hover{border-color:var(--ink)}
+.pause:active{transform:scale(.9)}
+.pause .i-play,.pause.is-paused .i-pause{display:none}
+.pause.is-paused .i-play{display:block}
+.trust{display:flex;align-items:flex-start;gap:8px;margin:2px 12px 12px;font-size:13px;line-height:1.45;color:var(--muted)}
+.trust svg{flex:none;margin-top:2px;color:var(--ok)}
+@media (max-width:640px){
+  .thread{padding:16px 14px 8px;gap:11px}
+  .msg-user,.answer,.row{font-size:14.5px}
+  .row,.rec-rows>div{grid-template-columns:76px 1fr;gap:10px}
+  .composer{margin:0 8px 8px}
+  .reel-tab .num,.lbl-x{display:none}
+  .reel-tab{padding-inline:6px}
+  .reel-tab .lbl{font-size:13.5px}
+  .trust{margin:2px 8px 12px;font-size:12.5px}
+  .sec{padding:12px}
+  .sec .num{font-size:28px}
+}
+/* Split-flap cells (demo scene 3 and the hero close-up) */
+.flap{display:inline-flex;gap:2px}
+.flap i{position:relative;display:grid;place-items:center;width:16px;height:27px;border-radius:4px;background:var(--ink);color:#F4F1EA;font:500 14px/1 var(--mono);font-style:normal;overflow:hidden;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)}
+.flap i::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.65)}
+.flap i.sp{background:var(--mat);box-shadow:none}
+.flap i.sp::after{display:none}
+.flap i.flip{animation:flapflip .1s linear}
+@keyframes flapflip{50%{transform:scaleY(.12)}}
+.flap.big i{width:21px;height:36px;font-size:19px;border-radius:5px}
+@media (max-width:640px){.flap.big i{width:14px;height:28px;font-size:15px;border-radius:4px}}
+
+/* ---------- Closing block ---------- */
+.close{padding-block:40px 90px}
+.close-card{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center;padding:56px;border-radius:32px;background:var(--ink);color:#F4F1EA}
+.close-card h2{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem, 1rem + 2.4vw, 3.3rem);line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+.close-card .close-sub{margin:14px 0 0;color:rgba(244,241,234,.72);font-size:17px}
+@media (max-width:899px){.close-card{grid-template-columns:1fr;gap:28px;padding:28px 22px;border-radius:26px}}
+
+/* ---------- Waitlist form (light, and on ink) ---------- */
+form{margin:0}
+.form-grid{display:grid;gap:14px}
+@media (min-width:560px){.form-grid{grid-template-columns:1fr 1fr}}
+.field{min-width:0}
+fieldset.field{border:0;margin:0;padding:0}
+.field label.lab,.field legend{display:block;margin:0 0 6px;padding:0;font-size:13.5px;line-height:20px;font-weight:500;color:var(--ink-2)}
+.input{width:100%;height:52px;border:1px solid var(--rule-2);border-radius:14px;background:var(--surface);color:var(--ink);transition:border-color .15s,box-shadow .2s}
+input.input{padding:0 16px;font:400 16px/1 var(--sans)}
+.input::placeholder{color:var(--faint)}
+.input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px rgba(25,25,23,.08)}
+[aria-invalid="true"].input,.seg[aria-invalid="true"]{border-color:var(--error);animation:nudge .4s var(--ease)}
+.form-err{margin:14px 0 0}
+.err{margin:6px 0 0;font-size:13px;color:var(--error)}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;height:52px;padding:4px;border:1px solid var(--rule-2);border-radius:14px;background:var(--surface)}
+.seg::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 6px);border-radius:10px;background:var(--ink);opacity:0;transition:transform .45s var(--spring),opacity .2s}
+.seg:has(input[value="advocate"]:checked)::before{opacity:1}
+.seg:has(input[value="student"]:checked)::before{opacity:1;transform:translateX(calc(100% + 4px))}
+.seg label{position:relative;display:block;z-index:1}
+.seg input{position:absolute;inset:0;margin:0;opacity:0;cursor:pointer}
+.seg span{display:grid;place-items:center;height:100%;border-radius:10px;font-size:15px;font-weight:500;color:var(--ink-2);transition:color .25s,background-color .18s}
+.seg label:hover input:not(:checked)+span{background:var(--bubble)}
+.seg input:checked+span{color:#fff}
+.seg input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
+.submit{align-self:start;width:100%;margin-top:4px}
+@media (min-width:560px){.submit{margin-top:26px}}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.consent{margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--muted)}
+.consent a{color:var(--ink-2)}
+.done{outline:none}
+.done.in>*{animation:rise .6s var(--ease) backwards}
+.done.in>*:nth-child(2){animation-delay:.12s}
+.done.in>*:nth-child(3){animation-delay:.24s}
+.done h2,.done h3{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.1;letter-spacing:-.015em}
+.done p{margin:0 0 18px;color:var(--ink-2)}
+.done .mono{font-family:var(--mono);font-size:15px}
+/* On ink: inputs stay white; labels and notes go light */
+.on-ink .field label.lab,.on-ink .field legend{color:rgba(244,241,234,.85)}
+.on-ink .input,.on-ink .seg{border-color:transparent}
+.on-ink .input:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)}
+.on-ink .btn-primary{background:#F4F1EA;color:var(--ink)}
+.on-ink .btn-primary:hover{background:#fff}
+.on-ink .btn-primary .spin{border-color:rgba(25,25,23,.25);border-top-color:var(--ink)}
+.on-ink .consent{color:rgba(244,241,234,.6)}
+.on-ink .consent a{color:rgba(244,241,234,.85)}
+.on-ink .err{color:#FFB4A9}
+.on-ink [aria-invalid="true"].input,.on-ink .seg[aria-invalid="true"]{border-color:#FFB4A9}
+.on-ink .done p{color:rgba(244,241,234,.8)}
+.on-ink .stamp{color:#8FD3AE}
+.on-ink .btn-ghost{color:#F4F1EA;border-color:rgba(244,241,234,.35)}
+.on-ink .btn-ghost:hover{background:rgba(255,255,255,.08);border-color:#F4F1EA}
+
+/* ---------- Footer, dialogs ---------- */
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;padding:16px 0 22px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+.foot-in nav{display:flex;gap:20px}
+.foot-in a{text-decoration:none}
+.foot-in a:hover{color:var(--ink);text-decoration:underline}
+dialog{width:calc(100% - 32px);max-width:520px;padding:28px;border:0;border-radius:24px;background:var(--surface);color:var(--ink);box-shadow:0 24px 64px -16px rgba(25,25,23,.28)}
+dialog[open]{animation:dlgIn .45s var(--spring)}
+@keyframes dlgIn{from{opacity:0;transform:translateY(16px) scale(.96)}}
+dialog::backdrop{background:rgba(25,25,23,.32)}
+dialog h2{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;letter-spacing:-.015em}
+dialog .dlg-sub{margin:0 0 20px;color:var(--ink-2)}
+dialog .eyebrow{margin-bottom:12px}
+.dlg-x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.dlg-x:hover{background:var(--bubble);color:var(--ink)}
+dialog .btn-primary{width:100%}
+@media (max-width:640px){
+  dialog.sheet{width:100%;max-width:none;margin:auto 0 0;border-radius:24px 24px 0 0;padding:24px 20px calc(20px + env(safe-area-inset-bottom))}
+  dialog.sheet[open]{animation:sheetUp .45s var(--ease)}
+  @keyframes sheetUp{from{transform:translateY(100%)}}
+}
+
+/* ---------- Scroll reveals ---------- */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ---------- Comp-only views and screenshot mode ---------- */
+.v-only .hero,.v-only .story,.v-only .demo,.v-only .close,.v-only .foot{display:none}
+.v-story .story,.v-demo .demo,.v-close .close,.v-close .foot{display:block}
+.v-story .story-head{display:none}
+.v-story .story-track{height:auto}
+.v-story .story-pin{position:relative}
+.v-demo .demo{padding-top:96px}
+.v-close .close{padding-top:120px}
+.shot *,.shot *::before,.shot *::after{transition:none !important;animation:none !important}
+.og .nav-r,.og .hero-cta{display:none}
+
+/* ---------- Reduced motion: everything rests in its finished state ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+.reduce *,.reduce *::before,.reduce *::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="wordmark" href="#top">Ley Legal</a>
+    <div class="nav-r">
+      <a class="nav-link nav-how" href="#how">How it works</a>
+      <button class="nav-link" id="login" type="button">Log in</button>
+      <button class="btn-primary btn-sm" data-join type="button" aria-label="Join the waitlist">Join<span class="nav-x">&nbsp;waitlist</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 1. First screen: complete on its own -->
+  <section class="hero" id="hero" aria-labelledby="h1">
+    <div class="film" id="film" aria-hidden="true">
+      <div class="take t-compose" style="--dur:5.2s"><div class="cam"><div class="pan"><div class="m-composer"><span class="m-text"></span><span class="m-caret"></span><span class="m-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></span></div></div></div></div>
+      <div class="take c t-cite" style="--dur:4.6s"><div class="cam"><div class="m-cite"><span class="m-k">Authority</span><span class="m-case">Arnesh Kumar v. State of Bihar</span><span class="m-row"><span class="m-citation">(2014) 8 SCC 273</span><span class="m-stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Checked</span></span></div></div></div>
+      <div class="take c t-flap" style="--dur:4.6s"><div class="cam"><div class="m-flapwrap"><span class="flap huge" id="mflap"></span><span class="m-flapcap">Old section → new section</span></div></div></div>
+      <div class="take c t-cal" style="--dur:4.6s"><div class="cam"><div class="m-cal"><div class="m-tile"><span>Nov</span><b>4</b></div><div class="m-calcopy"><span class="m-k">Next hearing</span><mark class="m-date hl">Fri, 18 Dec 2026</mark></div></div></div></div>
+      <div class="take t-hindi" style="--dur:5s"><div class="cam"><div class="pan"><div class="m-hindi" lang="hi"><span class="m-text"></span><span class="m-caret"></span></div></div></div></div>
+      <div class="film-fade"></div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow enter" style="--d:100ms">For advocates &amp; law students</p>
+      <h1 id="h1">
+        <span class="sr-only">Indian law, in your language.</span>
+        <span class="line" aria-hidden="true"><span class="li" style="--d:150ms">Indian law,</span></span>
+        <span class="line" aria-hidden="true"><span class="li" style="--d:260ms"><span class="roll">
+          <span class="rv">in your language.</span>
+          <span class="rv" lang="hi">अपनी भाषा में।</span>
+          <span class="rv">apni bhasha mein.</span>
+        </span></span></span>
+      </h1>
+      <p class="hero-sub enter" style="--d:420ms">Find judgments by the facts of your case, check any case by its CNR, and match old sections to new.</p>
+      <div class="hero-cta enter" style="--d:520ms">
+        <button class="btn-primary" data-join type="button"><span>Join the waitlist</span><svg class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        <a class="btn-ghost" href="#how">How it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Pinned story: five layers under every answer -->
+  <section class="story" id="how" aria-labelledby="how-title">
+    <header class="story-head reveal">
+      <p class="eyebrow">Inside Ley Legal</p>
+      <h2 class="sec-title" id="how-title">Five layers under every answer.</h2>
+    </header>
+    <div class="story-track" id="track">
+      <div class="story-pin">
+        <div class="wrap story-grid">
+          <div>
+            <ol class="layers" id="layers">
+              <li class="layer"><button class="lbtn" type="button" aria-expanded="false"><span class="ln">01</span><span class="lt">Bare acts and section tables</span><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ldesc"><div><p>IPC, CrPC and the Evidence Act beside BNS, BNSS and BSA. The old-to-new tables are checked by a legal reviewer, not written by AI.</p></div></div></li>
+              <li class="layer"><button class="lbtn" type="button" aria-expanded="false"><span class="ln">02</span><span class="lt">Judgment database</span><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ldesc"><div><p>Supreme Court and High Court judgments from open data are searched first. Indian Kanoon fills the gaps. Nothing comes from the open web.</p></div></div></li>
+              <li class="layer"><button class="lbtn" type="button" aria-expanded="false"><span class="ln">03</span><span class="lt">eCourts case status</span><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ldesc"><div><p>Stage, next date and orders for any case, by CNR, case number or party name.</p></div></div></li>
+              <li class="layer"><button class="lbtn" type="button" aria-expanded="false"><span class="ln">04</span><span class="lt">Your language</span><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ldesc"><div><p>Ask in English, Hindi or Hinglish, the way you would ask a colleague. It works out the legal terms.</p></div></div></li>
+              <li class="layer"><button class="lbtn" type="button" aria-expanded="false"><span class="ln">05</span><span class="lt">Citation check</span><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ldesc"><div><p>Every judgment is checked against the database before you see it. If nothing fits, it says “not sure”.</p></div></div></li>
+            </ol>
+            <div class="story-cta" id="story-cta"><button class="btn-primary" data-join type="button"><span>Join the waitlist</span><svg class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></div>
+          </div>
+          <div class="iso-wrap" aria-hidden="true">
+            <div class="iso" id="iso">
+              <div class="iso-floor"></div>
+              <div class="slab" style="--i:0"><div class="face"><span class="fl"><span class="fn">01</span>Bare acts</span></div><div class="side sf"></div><div class="side sr"></div></div>
+              <div class="slab" style="--i:1"><div class="face"><span class="fl"><span class="fn">02</span>Judgments</span></div><div class="side sf"></div><div class="side sr"></div></div>
+              <div class="slab" style="--i:2"><div class="face"><span class="fl"><span class="fn">03</span>eCourts</span></div><div class="side sf"></div><div class="side sr"></div></div>
+              <div class="slab" style="--i:3"><div class="face"><span class="fl"><span class="fn">04</span>Your language</span></div><div class="side sf"></div><div class="side sr"></div></div>
+              <div class="slab" style="--i:4"><div class="face"><span class="fl"><span class="fn">05</span>Citation check</span></div><div class="side sf"></div><div class="side sr"></div></div>
+              <div class="slab cap" style="--i:5"><div class="face"><span class="wm">Ley Legal</span></div><div class="side sf"></div><div class="side sr"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="story-progress" aria-hidden="true"><i id="story-bar"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. See it work: the live stage -->
+  <section class="demo wrap" id="demo" aria-labelledby="demo-title">
+    <header class="demo-head reveal">
+      <p class="eyebrow">See it work</p>
+      <h2 class="sec-title" id="demo-title">Ask it the way you’d ask a senior.</h2>
+    </header>
+    <div class="exhibit reveal" id="exhibit">
+      <div class="sr-only">
+        <h3>Three examples of Ley Legal at work</h3>
+        <ol>
+          <li>Research. Asked “498A mein seedha arrest ho sakta hai?”, it answers that arrest is not automatic under Section 35 of the BNSS, gives the provision (Section 85, BNS, formerly Section 498A, IPC) and cites Arnesh Kumar v. State of Bihar, (2014) 8 SCC 273, with the citation checked.</li>
+          <li>Case status. Given a CNR number, it shows the court, the parties, the stage, the last order and the next hearing date.</li>
+          <li>Sections. Asked in Hindi for the new section for IPC 302, it gives Section 103(1), BNS, gives the definition in Section 101, BNS, and warns that Section 302 of the BNS is a different offence.</li>
+        </ol>
+      </div>
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="thread" id="thread"></div>
+        <div class="composer" id="composer">
+          <span class="tag cchip" id="cchip" hidden>CNR</span>
+          <div class="cfield"><span class="ctext" id="ctext"></span><span class="caret"></span><span class="cph" id="cph">Ask in English, <span lang="hi">हिंदी</span> or Hinglish</span></div>
+          <span class="send" id="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></span>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="tabs">
+          <button class="reel-tab" type="button" aria-current="true"><span class="bar"><i></i></span><span class="num">01</span><span class="lbl">Research<span class="lbl-x"> by facts</span></span></button>
+          <button class="reel-tab" type="button" aria-current="false"><span class="bar"><i></i></span><span class="num">02</span><span class="lbl">Case status<span class="lbl-x"> by CNR</span></span></button>
+          <button class="reel-tab" type="button" aria-current="false"><span class="bar"><i></i></span><span class="num">03</span><span class="lbl">Sections<span class="lbl-x">, old → new</span></span></button>
+        </div>
+        <button class="pause" id="pause" type="button" aria-pressed="false" aria-label="Pause the examples">
+          <svg class="i-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          <svg class="i-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>
+        </button>
+      </div>
+      <p class="trust"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Every judgment is cited and linked. If it isn’t sure, it says so.</p>
+    </div>
+  </section>
+
+  <!-- 4. Closing block with the waitlist -->
+  <section class="close wrap" id="join" aria-labelledby="close-title">
+    <div class="close-card reveal">
+      <div>
+        <p class="eyebrow" style="color:rgba(244,241,234,.6)">Waitlist</p>
+        <h2 id="close-title">Be among the first advocates on Ley Legal.</h2>
+        <p class="close-sub">Access opens in December 2026.</p>
+      </div>
+      <div class="on-ink" data-form="close"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <div class="foot-in">
+    <span>© 2026 Ley Legal · A research tool for advocates, not legal advice. Read every authority in full before you cite it.</span>
+    <nav aria-label="Footer"><a href="/privacy">Privacy</a><a href="#">Contact</a></nav>
+  </div>
+</footer>
+
+<dialog id="wl-dlg" class="sheet" aria-labelledby="wl-title">
+  <button class="dlg-x" type="button" data-close aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  <p class="eyebrow">Waitlist</p>
+  <h2 id="wl-title">Join the waitlist</h2>
+  <p class="dlg-sub">Access opens to the first advocates in December 2026.</p>
+  <div data-form="dlg"></div>
+</dialog>
+
+<dialog id="login-dlg" class="sheet" aria-labelledby="dlg-title">
+  <button class="dlg-x" type="button" data-close aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  <p class="eyebrow">Log in</p>
+  <h2 id="dlg-title">Log in opens in December.</h2>
+  <p class="dlg-sub">Ley Legal opens to its first advocates in December 2026. Join the waitlist and we’ll message you when your access is ready.</p>
+  <button class="btn-primary" id="dlg-join" type="button">Join the waitlist</button>
+</dialog>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const qs = new URLSearchParams(location.search);
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || qs.has('static');
+  const shot = qs.has('shot');
+  const still = reduce || shot;
+  const view = qs.get('view'); // comp-only: story | demo | close
+  if (reduce) root.classList.add('reduce');
+  if (shot) root.classList.add('shot');
+  if (view) root.classList.add('v-only', 'v-' + view);
+  if (qs.has('og')) root.classList.add('og'); // comp-only: renders the link-preview image (og.png)
+  const ABORT = Symbol('abort');
+
+  /* ================= Shared helpers ================= */
+  const seg = Intl.Segmenter ? new Intl.Segmenter('hi', { granularity: 'grapheme' }) : null;
+  const graphemes = s => seg ? Array.from(seg.segment(s), x => x.segment) : Array.from(s);
+  const FLAP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const cellsOf = (el, n) => { el.innerHTML = '<i class="sp"></i>'.repeat(n); return [...el.children]; };
+  function setCell(c, ch, animate) {
+    c.textContent = ch === ' ' ? '' : ch;
+    c.classList.toggle('sp', ch === ' ');
+    if (!animate) return;
+    c.classList.remove('flip'); void c.offsetWidth; c.classList.add('flip');
+  }
+  // Each cell rattles through a few characters, then settles, left to right.
+  function flapTo(cells, text, instant) {
+    const target = text.padEnd(cells.length, ' ');
+    cells.forEach((c, i) => {
+      const want = target[i];
+      if (instant) return setCell(c, want, false);
+      if ((c.textContent || ' ') === want) return;
+      const steps = want === ' ' ? 1 : 3 + ((i * 7 + text.length) % 4);
+      for (let k = 0; k < steps; k++) setTimeout(() => setCell(c, FLAP_CHARS[(i * 11 + k * 5 + text.length) % FLAP_CHARS.length], true), i * 34 + k * 62);
+      setTimeout(() => setCell(c, want, true), i * 34 + steps * 62);
+    });
+  }
+  // A sleep that respects a pause flag and can be cancelled by bumping a token.
+  function makeClock() {
+    const C = { token: 0, paused: false };
+    C.sleep = ms => {
+      const t = C.token;
+      return new Promise((res, rej) => {
+        let left = ms, last = performance.now();
+        const tick = now => {
+          if (t !== C.token) return rej(ABORT);
+          const dt = Math.min(now - last, 64); last = now;
+          if (!C.paused) left -= dt;
+          left <= 0 ? res() : requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    };
+    return C;
+  }
+
+  /* ================= Headline: English, Hindi, Hinglish ================= */
+  const variants = $$('.rv');
+  variants.forEach(v => { v.innerHTML = v.textContent.trim().split(/\s+/).map((w, i) => `<span class="w" style="--i:${i}">${w}</span>`).join(' '); });
+  let vi = Math.min(Math.max(parseInt(qs.get('variant') || '0', 10), 0), variants.length - 1); // ?variant= is comp-only
+  variants[vi].classList.add('is-on');
+  if (!still) setInterval(() => {
+    if (document.hidden) return;
+    const cur = variants[vi];
+    vi = (vi + 1) % variants.length;
+    cur.classList.remove('is-on'); cur.classList.add('is-out');
+    variants[vi].classList.add('is-on');
+    setTimeout(() => { cur.classList.add('no-t'); cur.classList.remove('is-out'); void cur.offsetWidth; cur.classList.remove('no-t'); }, 1000);
+  }, 3400);
+
+  /* ================= Hero film: five close-ups of the product ================= */
+  const film = $('#film'), takes = $$('.take', film);
+  // Measure the space between the nav and the headline; the close-ups size themselves to fit it.
+  const hero = $('#hero'), heroCopy = $('.hero-copy');
+  const sideBySide = matchMedia('(orientation: landscape) and (max-height: 520px)');
+  function sizeFilm() {
+    const copyH = sideBySide.matches ? 0 : heroCopy.offsetHeight;
+    hero.style.setProperty('--copy-h', copyH + 'px');
+    hero.style.setProperty('--zone-h', Math.max(hero.clientHeight - 64 - copyH - 24, 110) + 'px');
+  }
+  sizeFilm();
+  new ResizeObserver(sizeFilm).observe(hero);
+  new ResizeObserver(sizeFilm).observe(heroCopy);
+  const F = makeClock();
+  const mcells = cellsOf($('#mflap'), 10);
+  const CAL = [['Nov', '4'], ['Nov', '11'], ['Nov', '18'], ['Nov', '25'], ['Dec', '2'], ['Dec', '9'], ['Dec', '16'], ['Dec', '18']];
+  // The camera follows the caret, so the end of the line stays in shot.
+  function followCaret(tk) {
+    const pan = $('.pan', tk), line = pan.firstElementChild, cam = $('.cam', tk);
+    const over = cam.offsetLeft + line.offsetWidth - innerWidth * 0.86;
+    pan.style.transform = `translateX(${-Math.max(0, over)}px)`;
+  }
+  async function typeInto(tk, text, per) {
+    const t = $('.m-text', tk); t.textContent = '';
+    for (const ch of graphemes(text)) { t.textContent += ch; followCaret(tk); await F.sleep(ch === ' ' ? per + 55 : per); }
+  }
+  const TAKES = [
+    async (tk, fin) => {
+      const text = '498A mein seedha arrest ho sakta hai?';
+      $('.m-text', tk).textContent = ''; $('.pan', tk).style.transform = '';
+      if (fin) { $('.m-text', tk).textContent = text; return followCaret(tk); }
+      await F.sleep(450); await typeInto(tk, text, 55); await F.sleep(1100);
+    },
+    async (tk, fin) => {
+      const s = $('.m-stamp', tk); s.classList.remove('in');
+      if (fin) return s.classList.add('in');
+      await F.sleep(1400); s.classList.add('in'); await F.sleep(2600);
+    },
+    async (tk, fin) => {
+      flapTo(mcells, fin ? 'BNS 103(1)' : 'IPC 302', true);
+      if (fin) return;
+      await F.sleep(1200); flapTo(mcells, 'BNS 103(1)', false); await F.sleep(2900);
+    },
+    async (tk, fin) => {
+      const m = $('.m-tile span', tk), d = $('.m-tile b', tk), hl = $('.m-date', tk);
+      hl.classList.remove('on'); m.textContent = 'Nov'; d.textContent = '4';
+      if (fin) { m.textContent = 'Dec'; d.textContent = '18'; return hl.classList.add('on'); }
+      await F.sleep(1000);
+      for (const [mm, dd] of CAL.slice(1)) { m.textContent = mm; d.textContent = dd; d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip'); await F.sleep(130); }
+      await F.sleep(250); hl.classList.add('on'); await F.sleep(2000);
+    },
+    async (tk, fin) => {
+      const text = 'जैसे सोचते हैं, वैसे पूछिए।';
+      $('.m-text', tk).textContent = ''; $('.pan', tk).style.transform = '';
+      if (fin) { $('.m-text', tk).textContent = text; return followCaret(tk); }
+      await F.sleep(500); await typeInto(tk, text, 80); await F.sleep(1300);
+    },
+  ];
+  const showTake = i => takes.forEach((el, k) => el.classList.toggle('on', k === i));
+  async function runFilm() {
+    let i = 0;
+    try { for (;;) { showTake(i); await TAKES[i](takes[i], false); i = (i + 1) % TAKES.length; } }
+    catch (e) { if (e !== ABORT) throw e; }
+  }
+  if (!view) {
+    if (still) {
+      const k = Math.min(Math.max(parseInt(qs.get('take') || '1', 10) - 1, 0), TAKES.length - 1); // ?take= is comp-only
+      showTake(k); TAKES[k](takes[k], true);
+    } else {
+      runFilm();
+      new IntersectionObserver(([e]) => { F.paused = !e.isIntersecting; film.classList.toggle('paused', F.paused); }, { threshold: 0.05 }).observe($('#hero'));
+      document.addEventListener('visibilitychange', () => { F.paused = document.hidden; });
+    }
+  }
+
+  /* ================= Story: layers stack as you scroll ================= */
+  const track = $('#track'), iso = $('#iso'), slabs = $$('.slab', iso), layers = $$('.layer'), storyBar = $('#story-bar'), storyCta = $('#story-cta');
+  const N = slabs.length; // five layers and the cap
+  let storyK = -1;
+  function setStory(k, p) {
+    if (k !== storyK) {
+      storyK = k;
+      slabs.forEach((s, i) => { s.classList.toggle('placed', i <= k); s.classList.toggle('active', i === k && i < N - 1); });
+      layers.forEach((l, i) => { l.classList.toggle('on', i === k); $('.lbtn', l).setAttribute('aria-expanded', String(i === k)); });
+      iso.classList.toggle('closed', k === N - 1);
+      storyCta.classList.toggle('on', k === N - 1);
+    }
+    storyBar.style.transform = `scaleX(${p})`;
+    iso.style.setProperty('--sp', p.toFixed(4));
+  }
+  function storyFromScroll() {
+    const r = track.getBoundingClientRect(), total = r.height - innerHeight;
+    const p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+    setStory(Math.min(N - 1, Math.floor(p * N)), p);
+  }
+  // A layer button scrolls to that layer's place in the story.
+  layers.forEach((l, i) => $('.lbtn', l).addEventListener('click', () => {
+    const top = track.getBoundingClientRect().top + scrollY, total = track.offsetHeight - innerHeight;
+    scrollTo({ top: top + total * ((i + 0.5) / N), behavior: reduce ? 'auto' : 'smooth' });
+  }));
+  if (view === 'story') { const k = Math.min(Math.max(parseInt(qs.get('story') || '3', 10) - 1, 0), N - 1); setStory(k, (k + 0.5) / N); }
+  else storyFromScroll();
+
+  /* ================= Nav, reveals and scroll ================= */
+  const nav = $('#nav');
+  let ticking = false;
+  function onScroll() {
+    ticking = false;
+    nav.classList.toggle('solid', scrollY > 24 || !!view);
+    if (view !== 'story') storyFromScroll();
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener('resize', onScroll);
+  onScroll();
+  const revealIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealIO.unobserve(e.target); } }), { threshold: 0.12 });
+  $$('.reveal').forEach(el => still || view ? el.classList.add('in') : revealIO.observe(el));
+
+  /* ================= Demo stage player ================= */
+  const thread = $('#thread'), composer = $('#composer'), ctext = $('#ctext'), cph = $('#cph'), cchip = $('#cchip'), send = $('#send');
+  const tabs = $$('.reel-tab');
+  const bars = tabs.map(t => $('.bar i', t));
+  const pauseBtn = $('#pause'), stage = $('#stage'), exhibit = $('#exhibit');
+  // ff: fast-forward target in ms (comp screenshots and reduced motion); frozen: stopped at that target.
+  const P = { token: 0, scene: 0, elapsed: 0, duration: 1, user: false, hover: false, off: false, frozen: false, ff: null };
+  const paused = () => P.user || P.hover || P.off || P.frozen;
+  const check = t => { if (t !== P.token) throw ABORT; };
+  function wait(ms) {
+    const t = P.token;
+    if (P.ff !== null) {
+      if (P.elapsed + ms < P.ff) { P.elapsed += ms; return Promise.resolve().then(() => check(t)); }
+      P.elapsed = P.ff; P.ff = null; P.frozen = true;
+    }
+    return new Promise((resolve, reject) => {
+      let left = ms, last = performance.now();
+      const tick = now => {
+        if (t !== P.token) return reject(ABORT);
+        const dt = Math.min(now - last, 64); last = now;
+        if (!paused()) { left -= dt; P.elapsed += dt; }
+        left <= 0 ? resolve() : requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+  const instant = () => P.ff !== null || reduce;
+  async function type(text, { per = 42, onChar } = {}) {
+    let out = '', i = 0;
+    cph.hidden = true; composer.classList.add('typing'); send.classList.add('ready');
+    for (const ch of graphemes(text)) {
+      out += ch; ctext.textContent = out;
+      if (onChar) onChar(out);
+      await wait(ch === ' ' ? per + 45 : per + ((i++ * 37) % 5 - 2) * 9);
+    }
+  }
+  function resetComposer() {
+    ctext.textContent = ''; cph.hidden = false; cchip.hidden = true;
+    send.classList.remove('ready', 'press'); composer.classList.remove('is-mono', 'typing');
+  }
+  const el = k => thread.querySelector(`[data-s="${k}"]`);
+  function follow() { thread.scrollTo({ top: thread.scrollHeight, behavior: instant() ? 'auto' : 'smooth' }); }
+  function show(k) {
+    const e = el(k); if (!e) return;
+    if (e.hidden) { e.hidden = false; void e.offsetWidth; }
+    e.classList.add('in'); follow();
+  }
+  function tokenize(node) {
+    const out = [];
+    const walk = n => [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(p => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { frag.append(p); return; }
+          const s = document.createElement('span'); s.className = 'tk'; s.textContent = p; frag.append(s); out.push(s);
+        });
+        c.replaceWith(frag);
+      } else if (c.nodeType === 1 && !c.classList.contains('k')) walk(c);
+    });
+    walk(node);
+    return out;
+  }
+  async function stream(k, per = 32) {
+    const toks = tokenize(el(k));
+    show(k);
+    for (const t of toks) { t.classList.add('on'); await wait(per); }
+    follow();
+  }
+  function setStatus(text) {
+    const st = el('status').querySelector('.st');
+    st.textContent = text;
+    if (!instant()) st.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.22,1,.36,1)' });
+  }
+  function doneStatus(text) { setStatus(text); el('status').classList.add('done'); }
+  function stampOn(k, cardK) {
+    el(k).classList.add('in');
+    const c = el(cardK); if (!c || instant()) return;
+    setTimeout(() => { c.classList.remove('thud'); void c.offsetWidth; c.classList.add('thud'); }, 230);
+  }
+  async function submit() { send.classList.add('press'); await wait(200); resetComposer(); show('q'); await wait(420); }
+  function setThread(html) { thread.innerHTML = html; thread.scrollTop = 0; thread.classList.remove('out'); }
+  const I = {
+    check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    ext: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
+    alert: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+  };
+  const status = text => `<div class="status r" data-s="status" hidden><span class="spinner"></span><span class="okic">${I.check}</span><span class="st">${text}</span></div>`;
+
+  async function research() {
+    setThread(`
+      <div class="msg-user r" data-s="q" hidden>498A mein seedha arrest ho sakta hai?</div>
+      ${status('Reading your question')}
+      <div class="answer r" data-s="lead" hidden><b>No, not automatically.</b> Police must first meet the conditions in <b>Section 35, BNSS</b> <span class="was">(formerly 41 and 41A, CrPC)</span> and record their reasons.</div>
+      <div class="row r" data-s="prov" hidden><span class="k">Provision</span><span>Cruelty by husband or relatives: <mark class="hl" data-s="hl1"><b>Section 85, BNS</b></mark><span class="was was-line">formerly Section 498A, IPC</span></span></div>
+      <div class="cite r" data-s="auth" hidden>
+        <div class="cite-main"><span class="k">Authority</span><span class="case-name">Arnesh Kumar v. State of Bihar</span><span class="citation">(2014) 8 SCC 273 · Supreme Court</span></div>
+        <div class="cite-chips"><span class="stamp" data-s="ok">${I.check}Checked</span><span class="chip chip-link">Open judgment ${I.ext}</span></div>
+      </div>`);
+    await wait(700);
+    await type('498A mein seedha arrest ho sakta hai?');
+    await wait(380); await submit();
+    show('status'); await wait(800);
+    setStatus('Searching Supreme Court and High Court judgments'); await wait(1000);
+    setStatus('Checking each citation against its judgment'); await wait(900);
+    doneStatus('Citations checked');
+    await stream('lead', 34); await wait(250);
+    await stream('prov', 34);
+    el('hl1').classList.add('on'); await wait(500);
+    show('auth'); await wait(650);
+    stampOn('ok', 'auth');
+  }
+  async function caseStatus() {
+    setThread(`
+      <div class="msg-user mono r" data-s="q" hidden><span class="tag">CNR</span>BRPT010024512024</div>
+      ${status('Looking up the case on eCourts')}
+      <div class="record r" data-s="rec" hidden>
+        <div class="rec-top"><div class="rec-head"><span class="k">Title Suit 245/2024</span><span class="chip chip-muted">Sample case</span></div><div class="case-name">Ramesh Prasad v. Sunita Devi</div><div class="rec-court">Civil Judge (Senior Division) I, Patna</div></div>
+        <dl class="rec-rows"><div class="r" data-s="r1"><dt>Stage</dt><dd>Evidence</dd></div><div class="r" data-s="r2"><dt>Last order</dt><dd>28 Oct 2026 · PW-2 examined, listed for further evidence</dd></div></dl>
+        <div class="next r" data-s="next"><div class="tile"><span>Nov</span><b>4</b></div><div><span class="k">Next hearing</span><mark class="hl date" data-s="hl2">Fri, 18 Dec 2026</mark></div></div>
+      </div>`);
+    composer.classList.add('is-mono');
+    await wait(600);
+    await type('BRPT010024512024', { per: 55, onChar: s => { if (s.length === 4) cchip.hidden = false; } });
+    await wait(380); await submit();
+    show('status'); await wait(1100);
+    doneStatus('Updated from eCourts');
+    show('rec'); await wait(400); show('r1'); await wait(320); show('r2'); await wait(420);
+    show('next'); await wait(300);
+    const m = el('next').querySelector('.tile span'), d = el('next').querySelector('.tile b');
+    for (const [mm, dd] of CAL) {
+      m.textContent = mm; d.textContent = dd;
+      if (!instant()) { d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip'); }
+      await wait(95);
+    }
+    el('hl2').classList.add('on');
+  }
+  async function sections() {
+    setThread(`
+      <div class="msg-user r" data-s="q" lang="hi" hidden>IPC 302 का BNS में कौन-सा सेक्शन है?</div>
+      ${status('Matching against the IPC–BNS table')}
+      <div class="map r" data-s="map" hidden>
+        <div class="sec old"><span class="k">IPC · 1860</span><span class="num">302</span><span class="cap" lang="hi">हत्या के लिए दंड</span></div>
+        <svg class="arrow" viewBox="0 0 48 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h42"/><path d="m38 2 6 6-6 6"/></svg>
+        <div class="sec new" data-s="new"><span class="k">BNS · 2023</span><span class="flap big" data-s="nflap"></span><span class="cap" lang="hi">हत्या के लिए दंड</span></div>
+      </div>
+      <div class="row r" data-s="def" lang="hi" hidden><span class="k">परिभाषा</span><span>हत्या की परिभाषा <mark class="hl" data-s="hl3"><b>धारा 101, BNS</b></mark> में है <span class="was">(पहले धारा 300, IPC)</span></span></div>
+      <div class="caution r" data-s="warn" lang="hi" hidden>${I.alert}<span><b>ध्यान दें:</b> BNS की धारा 302 अलग अपराध है — धार्मिक भावनाओं को ठेस पहुँचाने के इरादे से कहे गए शब्द। हत्या के लिए इसे न लिखें।</span></div>`);
+    const cells = cellsOf(el('nflap'), 6);
+    await wait(600);
+    await type('IPC 302 का BNS में कौन-सा सेक्शन है?', { per: 60 });
+    await wait(380); await submit();
+    show('status'); await wait(1000);
+    doneStatus('From the reviewed section table');
+    show('map'); await wait(450);
+    el('map').classList.add('go'); await wait(350);
+    flapTo(cells, '103(1)', instant()); await wait(instant() ? 0 : 900);
+    el('new').classList.add('done'); await wait(450);
+    await stream('def', 40);
+    el('hl3').classList.add('on'); await wait(600);
+    show('warn');
+  }
+  const SCENES = [{ run: research, dur: 14000 }, { run: caseStatus, dur: 10500 }, { run: sections, dur: 13000 }];
+  async function play(i, { freeze = null } = {}) {
+    ++P.token;
+    Object.assign(P, { scene: i, elapsed: 0, duration: SCENES[i].dur, frozen: false });
+    P.ff = freeze === 'end' ? P.duration - 1 : (Number.isFinite(freeze) ? freeze : null);
+    tabs.forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
+    try {
+      if (P.ff === null && thread.childElementCount) { thread.classList.add('out'); await wait(280); P.elapsed = 0; }
+      resetComposer();
+      await SCENES[i].run();
+      await wait(Math.max(0, P.duration - P.elapsed));
+      if (!reduce) play((i + 1) % SCENES.length);
+    } catch (e) { if (e !== ABORT) throw e; } // a newer play() took over; this run just stops
+  }
+  (function frame() {
+    bars.forEach((b, k) => {
+      const v = reduce ? +(k === P.scene) : k < P.scene ? 1 : k > P.scene ? 0 : Math.min(P.elapsed / P.duration, 1);
+      b.style.transform = `scaleX(${v})`;
+    });
+    requestAnimationFrame(frame);
+  })();
+  function syncPause() {
+    pauseBtn.classList.toggle('is-paused', P.user || P.frozen);
+    pauseBtn.setAttribute('aria-pressed', String(P.user));
+    pauseBtn.setAttribute('aria-label', P.user ? 'Play the examples' : 'Pause the examples');
+  }
+  pauseBtn.addEventListener('click', () => { if (P.frozen) { P.frozen = false; P.user = false; } else P.user = !P.user; syncPause(); });
+  tabs.forEach((b, k) => b.addEventListener('click', () => { P.user = false; syncPause(); play(k, reduce ? { freeze: 'end' } : {}); }));
+  stage.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') P.hover = true; });
+  stage.addEventListener('pointerleave', () => { P.hover = false; });
+  // The demo waits (paused) until it scrolls into view.
+  P.off = !view;
+  new IntersectionObserver(([e]) => { P.off = !e.isIntersecting; }, { threshold: 0.3 }).observe(exhibit);
+  if (reduce) pauseBtn.hidden = true;
+  const start = Math.min(Math.max(parseInt(qs.get('scene') || '1', 10) - 1, 0), SCENES.length - 1);
+  const at = qs.get('at');
+  play(start, { freeze: reduce || at === 'end' ? 'end' : at ? Number(at) : null });
+
+  /* ================= Pointer effects (mouse only) ================= */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !still) {
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    const loop = () => {
+      cx += (tx - cx) * 0.1; cy += (ty - cy) * 0.1;
+      exhibit.style.transform = `perspective(1600px) rotateX(${cx.toFixed(3)}deg) rotateY(${cy.toFixed(3)}deg)`;
+      raf = Math.abs(tx - cx) > 0.005 || Math.abs(ty - cy) > 0.005 ? requestAnimationFrame(loop) : 0;
+      if (!raf && !tx && !ty) exhibit.style.transform = '';
+    };
+    exhibit.addEventListener('pointermove', e => {
+      const r = exhibit.getBoundingClientRect();
+      tx = ((e.clientY - r.top) / r.height - 0.5) * -3; ty = ((e.clientX - r.left) / r.width - 0.5) * 4;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    exhibit.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
+  }
+
+  /* ================= Waitlist forms (dialog and closing block) → POST /api/waitlist ================= */
+  const formHTML = p => `
+    <form class="wl" novalidate>
+      <div class="form-grid">
+        <div class="field"><label class="lab" for="${p}-name">Your name</label><input class="input" id="${p}-name" name="name" autocomplete="name" maxlength="80" placeholder="e.g. Anjali Sinha" aria-describedby="${p}-e-name"><p class="err" id="${p}-e-name" hidden></p></div>
+        <div class="field"><label class="lab" for="${p}-email">Email</label><input class="input" id="${p}-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="you@example.com" aria-describedby="${p}-e-email"><p class="err" id="${p}-e-email" hidden></p></div>
+        <fieldset class="field" aria-describedby="${p}-e-role"><legend>I am</legend><div class="seg"><label><input type="radio" name="role" value="advocate"><span>Advocate</span></label><label><input type="radio" name="role" value="student"><span>Law student</span></label></div><p class="err" id="${p}-e-role" hidden></p></fieldset>
+        <button class="btn-primary submit" type="submit"><span>Join the waitlist</span><svg class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
+      </div>
+      <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="err form-err" id="${p}-e-form" role="alert" hidden></p>
+      <p class="consent">We’ll use your email only to tell you when your access opens. <a href="/privacy">Privacy policy</a></p>
+    </form>
+    <div class="done" tabindex="-1" hidden>
+      <h3 class="done-title">You’re on the list.</h3>
+      <p>We’ll email <span class="mono done-email"></span> when your access opens.</p>
+      <div class="done-actions">
+        <a class="btn-ghost share" target="_blank" rel="noopener">Tell a colleague on WhatsApp</a>
+        <span class="stamp stamp-lg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Received</span>
+      </div>
+    </div>`;
+  const EMAIL = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i; // same rule as api/waitlist.js
+  const hosts = $$('[data-form]');
+  let joined = null;
+  function showJoined() {
+    hosts.forEach(h => {
+      $('form', h).hidden = true;
+      const d = $('.done', h), first = joined.name.split(' ')[0];
+      $('.done-title', d).textContent = joined.already ? `You’re already on the list, ${first}.` : `You’re on the list, ${first}.`;
+      $('.done-email', d).textContent = joined.email;
+      $('.share', d).href = 'https://wa.me/?text=' + encodeURIComponent('Ley Legal: legal research for advocates, in English, Hindi or Hinglish. Join the waitlist: https://leylegal.in');
+      d.hidden = false; d.classList.add('in'); $('.stamp', d).classList.add('in');
+    });
+  }
+  hosts.forEach(h => {
+    const p = h.dataset.form;
+    h.innerHTML = formHTML(p);
+    const form = $('form', h), nameIn = form.name, emailIn = form.email, segBox = $('.seg', form), formErr = $(`#${p}-e-form`);
+    const setErr = (input, id, msg) => { const e = $('#' + id); e.textContent = msg || ''; e.hidden = !msg; input.setAttribute('aria-invalid', msg ? 'true' : 'false'); };
+    const showFormErr = msg => { formErr.textContent = msg || ''; formErr.hidden = !msg; };
+    nameIn.addEventListener('input', () => nameIn.getAttribute('aria-invalid') === 'true' && setErr(nameIn, `${p}-e-name`));
+    emailIn.addEventListener('input', () => emailIn.getAttribute('aria-invalid') === 'true' && setErr(emailIn, `${p}-e-email`));
+    segBox.addEventListener('change', () => setErr(segBox, `${p}-e-role`));
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name = nameIn.value.trim().replace(/\s+/g, ' ');
+      const email = emailIn.value.trim().toLowerCase();
+      const role = form.role.value;
+      showFormErr('');
+      setErr(nameIn, `${p}-e-name`, name.length < 2 ? 'Please enter your name.' : '');
+      setErr(emailIn, `${p}-e-email`, EMAIL.test(email) ? '' : 'Enter a valid email address.');
+      setErr(segBox, `${p}-e-role`, role ? '' : 'Choose advocate or law student.');
+      const bad = form.querySelector('[aria-invalid="true"]');
+      if (bad) { (bad === segBox ? $('input', segBox) : bad).focus(); return; }
+      if (form.company.value) return; // honeypot: bots fill it, people never see it
+      const btn = $('.submit', form);
+      btn.setAttribute('aria-busy', 'true');
+      let res, data = {};
+      try {
+        res = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, role }) });
+        data = await res.json().catch(() => ({}));
+      } catch { res = null; }
+      btn.removeAttribute('aria-busy');
+      if (res && res.status === 400 && data.fields) {
+        // The server's checks match the ones above; show whatever it caught.
+        if (data.fields.name) setErr(nameIn, `${p}-e-name`, data.fields.name);
+        if (data.fields.email) setErr(emailIn, `${p}-e-email`, data.fields.email);
+        if (data.fields.role) setErr(segBox, `${p}-e-role`, data.fields.role);
+        return;
+      }
+      if (!res || !res.ok) {
+        showFormErr(res ? 'We couldn’t save that just now. Please try again in a minute.' : 'You seem to be offline. Check your connection and try again.');
+        return;
+      }
+      joined = { name, email, already: data.status === 'exists' };
+      showJoined();
+      $('.done', h).focus();
+    });
+  });
+
+  /* ================= Dialogs ================= */
+  const wl = $('#wl-dlg'), login = $('#login-dlg');
+  function openWaitlist() {
+    login.close();
+    wl.showModal();
+    if (!joined) setTimeout(() => $('input[name="name"]', wl).focus(), reduce ? 0 : 200);
+  }
+  $$('[data-join]').forEach(b => b.addEventListener('click', openWaitlist));
+  $('#login').addEventListener('click', () => { $('#dlg-join').hidden = !!joined; login.showModal(); });
+  $('#dlg-join').addEventListener('click', openWaitlist);
+  $$('dialog').forEach(d => {
+    $('[data-close]', d).addEventListener('click', () => d.close());
+    d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  });
+})();
+</script>
+</body>
+</html>

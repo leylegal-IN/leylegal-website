@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ley Legal · Responsive check (v3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+/* Responsive board for comp v3: live frames of index.html at real screen sizes, scaled to fit. */
+:root{--paper:#F7F5F0;--ink:#191917;--ink-2:#36342F;--muted:#67635A;--rule:#E5E0D5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.board{width:1960px;margin:0 auto;padding:40px 44px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+h1{margin:0;font:400 38px/1.05 "Newsreader",Georgia,serif;letter-spacing:-.02em}
+.meta{margin:0;font:500 13px/1.6 "IBM Plex Mono",monospace;color:var(--muted);text-align:right}
+h2{margin:28px 0 14px;font:400 24px/1.15 "Newsreader",Georgia,serif}
+.row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px;margin-bottom:22px}
+figure{margin:0}
+.f{overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px var(--rule)}
+.f iframe{border:0;display:block;transform-origin:0 0;pointer-events:none}
+figcaption{margin-top:6px;font:500 12px "IBM Plex Mono",monospace;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <h1>Ley Legal homepage · every screen</h1>
+    <p class="meta">Comp v3 · 4 Nov 2026<br>Live frames at real sizes, scaled</p>
+  </header>
+  <h2>First screen</h2>
+  <div class="row" data-h="330">
+    <figure data-w="320" data-h="568" data-q="?shot&take=1" data-l="iPhone SE · 320 × 568"></figure>
+    <figure data-w="375" data-h="667" data-q="?shot&take=3&variant=1" data-l="375 × 667"></figure>
+    <figure data-w="390" data-h="844" data-q="?shot&take=2" data-l="iPhone · 390 × 844"></figure>
+    <figure data-w="430" data-h="932" data-q="?shot&take=4&variant=2" data-l="Pro Max · 430 × 932"></figure>
+    <figure data-w="768" data-h="1024" data-q="?shot&take=5" data-l="iPad · 768 × 1024"></figure>
+    <figure data-w="844" data-h="390" data-q="?shot&take=1&variant=1" data-l="Phone landscape · 844 × 390"></figure>
+  </div>
+  <div class="row" data-h="300">
+    <figure data-w="568" data-h="320" data-q="?shot&take=3" data-l="Small landscape · 568 × 320"></figure>
+    <figure data-w="1024" data-h="768" data-q="?shot&take=2&variant=1" data-l="iPad landscape · 1024 × 768"></figure>
+    <figure data-w="1280" data-h="600" data-q="?shot&take=1" data-l="Laptop, short · 1280 × 600"></figure>
+  </div>
+  <div class="row" data-h="300">
+    <figure data-w="1440" data-h="900" data-q="?shot&take=4" data-l="MacBook · 1440 × 900"></figure>
+    <figure data-w="1920" data-h="1080" data-q="?shot&take=3&variant=2" data-l="Full HD · 1920 × 1080"></figure>
+    <figure data-w="2560" data-h="1440" data-q="?shot&take=2" data-l="QHD · 2560 × 1440"></figure>
+  </div>
+  <h2>Pinned layer story</h2>
+  <div class="row" data-h="330">
+    <figure data-w="320" data-h="568" data-q="?shot&view=story&story=5" data-l="320 × 568"></figure>
+    <figure data-w="390" data-h="844" data-q="?shot&view=story&story=3" data-l="390 × 844"></figure>
+    <figure data-w="768" data-h="1024" data-q="?shot&view=story&story=4" data-l="768 × 1024"></figure>
+    <figure data-w="844" data-h="390" data-q="?shot&view=story&story=5" data-l="844 × 390"></figure>
+    <figure data-w="1280" data-h="600" data-q="?shot&view=story&story=5" data-l="1280 × 600"></figure>
+  </div>
+  <div class="row" data-h="300">
+    <figure data-w="1920" data-h="1080" data-q="?shot&view=story&story=6" data-l="1920 × 1080"></figure>
+    <figure data-w="2560" data-h="1440" data-q="?shot&view=story&story=4" data-l="2560 × 1440"></figure>
+    <figure data-w="390" data-h="844" data-q="?shot&view=close" data-l="Waitlist · 390 × 844"></figure>
+    <figure data-w="768" data-h="1024" data-q="?shot&view=demo&scene=3&at=end" data-l="Demo · 768 × 1024"></figure>
+  </div>
+</div>
+<script>
+  // Each frame renders index.html at its real size, scaled so the row shares one height.
+  document.querySelectorAll('.row').forEach(row => {
+    const H = +row.dataset.h;
+    row.querySelectorAll('figure').forEach(f => {
+      const w = +f.dataset.w, h = +f.dataset.h, s = H / h;
+      f.innerHTML = `<div class="f" style="width:${w * s}px;height:${H}px"><iframe src="/${f.dataset.q}" style="width:${w}px;height:${h}px;transform:scale(${s})" title="${f.dataset.l}"></iframe></div><figcaption>${f.dataset.l}</figcaption>`;
+    });
+  });
+</script>
+</body>
+</html>

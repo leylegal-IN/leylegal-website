@@ -1,0 +1,10 @@
+node_modules/
+.env*
+!.env.example
+.vercel/
+
+# Internal planning notes stay local (this repo is public).
+PLAN.md
+
+# Design-check cache
+.impeccable/hook.cache.json

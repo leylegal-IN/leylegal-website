@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ley Legal · Page overview (v3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+/* Overview board for comp v3: the page top to bottom, as live frames of index.html at 1440×900. */
+:root{--paper:#F7F5F0;--ink:#191917;--ink-2:#36342F;--muted:#67635A;--rule:#E5E0D5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.board{max-width:1920px;margin:0 auto;padding:44px 48px 52px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+h1{margin:0;font:400 40px/1.05 "Newsreader",Georgia,serif;letter-spacing:-.02em}
+.meta{margin:0;font:500 13px/1.6 "IBM Plex Mono",monospace;color:var(--muted);text-align:right}
+section{padding:30px 0 6px}
+h2{margin:0 0 4px;font:400 26px/1.15 "Newsreader",Georgia,serif;letter-spacing:-.01em}
+section>p{margin:0 0 16px;color:var(--ink-2);max-width:80ch}
+.row{display:flex;gap:20px}
+figure{margin:0}
+.f{overflow:hidden;border-radius:12px;box-shadow:0 0 0 1px var(--rule)}
+.f iframe{width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+.s5 .f{width:345.6px;height:216px}.s5 iframe{transform:scale(.24)}
+.s3 .f{width:576px;height:360px}.s3 iframe{transform:scale(.4)}
+.s2 .f{width:720px;height:450px}.s2 iframe{transform:scale(.5)}
+figcaption{margin-top:8px;font-size:13.5px;color:var(--ink-2)}
+figcaption b{font:500 12px "IBM Plex Mono",monospace;color:var(--muted);margin-right:6px}
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <h1>Ley Legal homepage · Legora-style, top to bottom</h1>
+    <p class="meta">Comp v3 · 4 Nov 2026<br>Desktop 1440 × 900</p>
+  </header>
+  <section class="s5">
+    <h2>1 · The first screen</h2>
+    <p>Works on its own: headline, what it does, and the waitlist. Behind it, a film of the product in close-up loops through five shots, about 24 seconds in all.</p>
+    <div class="row">
+      <figure><div class="f"><iframe src="/?shot&take=1"></iframe></div><figcaption><b>A</b>A question is typed in Hinglish</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&take=2&variant=1"></iframe></div><figcaption><b>B</b>The authority is stamped checked</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&take=3&variant=2"></iframe></div><figcaption><b>C</b>IPC 302 flips to BNS 103(1)</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&take=4"></iframe></div><figcaption><b>D</b>The calendar tears to the next hearing</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&take=5"></iframe></div><figcaption><b>E</b>Hindi, typed as you think it</figcaption></figure>
+    </div>
+  </section>
+  <section class="s3">
+    <h2>2 · Scroll: five layers under every answer</h2>
+    <p>The screen pins while the layers stack one by one, each opening its card on the left. A Ley Legal cap closes the cube at the end.</p>
+    <div class="row">
+      <figure><div class="f"><iframe src="/?shot&view=story&story=1"></iframe></div><figcaption><b>A</b>Bare acts and section tables</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&view=story&story=4"></iframe></div><figcaption><b>B</b>Four layers in, “Your language” open</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&view=story&story=6"></iframe></div><figcaption><b>C</b>Closed into Ley Legal, with the waitlist button</figcaption></figure>
+    </div>
+  </section>
+  <section class="s2">
+    <h2>3 · The live demo, then the waitlist</h2>
+    <p>The three live demos play once the section is in view. The page ends on a dark waitlist block.</p>
+    <div class="row">
+      <figure><div class="f"><iframe src="/?shot&view=demo&scene=3&at=end"></iframe></div><figcaption><b>A</b>See it work</figcaption></figure>
+      <figure><div class="f"><iframe src="/?shot&view=close"></iframe></div><figcaption><b>B</b>Join the waitlist</figcaption></figure>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Vercel needs public/ (the site), api/ (the waitlist functions), scripts/build.mjs and package files.
+# Keep design work, review boards, local tooling and secrets out of the upload.
+design/
+review/
+PLAN.md
+README.md
+.claude/
+.impeccable/
+node_modules/
+.env*
+!.env.example
