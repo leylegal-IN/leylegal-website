@@ -5,7 +5,8 @@ The Ley Legal homepage and its waitlist, deployed on Vercel.
 | Path | What it is |
 |---|---|
 | `public/` | The website: `index.html`, `404.html`, icons, `og.png` (link-preview image), `robots.txt`, `sitemap.xml` |
-| `api/waitlist.js` | `POST /api/waitlist`: saves a sign-up (name, email, advocate or law student) to Postgres |
+| `public/hi.js` | The Hindi version of every line on the homepage (the EN / हिंदी switch in the top bar). English stays in `index.html` and `app.js`. |
+| `api/waitlist.js` | `POST /api/waitlist`: saves a sign-up (name, email, optional WhatsApp number, advocate or law student) to Postgres |
 | `api/waitlist-export.js` | `GET /api/waitlist-export`: downloads the waitlist as a spreadsheet (CSV), password protected |
 | `db/waitlist.sql` | The table. It is created automatically on the first sign-up |
 | `scripts/build.mjs` | Runs on every Vercel deploy: puts the right address into link previews, writes `robots.txt` and `sitemap.xml` |

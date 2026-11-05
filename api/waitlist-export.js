@@ -35,9 +35,11 @@ export default async function handler(req, res) {
   if (!sql) return deny(res, 503, 'No database connected yet.');
   try {
     await ensureTable();
-    const rows = await sql`select name, email, role, created_at from waitlist order by created_at`;
-    const lines = [['Name', 'Email', 'Role', 'Joined (IST)'].map(cell).join(',')];
-    for (const r of rows) lines.push([r.name, r.email, r.role === 'student' ? 'Law student' : 'Advocate', IST.format(r.created_at)].map(cell).join(','));
+    const rows = await sql`select name, email, whatsapp, role, created_at from waitlist order by created_at`;
+    const lines = [['Name', 'Email', 'WhatsApp (+91)', 'Role', 'Joined (IST)'].map(cell).join(',')];
+    // WhatsApp is written as 98765 43210: a leading + would make Excel treat it as a formula, and a bare number loses digits.
+    const wa = n => n ? n.slice(3, 8) + ' ' + n.slice(8) : '';
+    for (const r of rows) lines.push([r.name, r.email, wa(r.whatsapp), r.role === 'student' ? 'Law student' : 'Advocate', IST.format(r.created_at)].map(cell).join(','));
     const day = new Date().toISOString().slice(0, 10);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');

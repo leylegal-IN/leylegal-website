@@ -14,6 +14,58 @@
   if (qs.has('og')) root.classList.add('og'); // comp-only: renders the link-preview image (og.png)
   const ABORT = Symbol('abort');
 
+  /* ================= Language: English (in the page) or Hindi (hi.js) ================= */
+  const SITE = 'https://leylegal.in'; // the Vercel build swaps this for the production address
+  const HI = window.LL_HI || {};
+  // English for the lines app.js writes itself. Lines in index.html keep their English there (data-t="…").
+  const EN = {
+    authority: 'Authority', checked: 'Checked', next: 'Next hearing', date: 'Fri, 18 Dec 2026', Nov: 'Nov', Dec: 'Dec',
+    'cta.join': 'Join the waitlist', 'pause.pause': 'Pause the examples', 'pause.play': 'Play the examples',
+    'x1.st1': 'Reading your question', 'x1.st2': 'Searching Supreme Court and High Court judgements',
+    'x1.st3': 'Checking each citation against its judgement', 'x1.done': 'Citations checked',
+    'x1.lead': '<b>No, not automatically.</b> Police must first meet the conditions in <b>Section 35, BNSS</b> <span class="was">(formerly 41 and 41A, CrPC)</span> and record their reasons.',
+    'x1.provK': 'Provision',
+    'x1.prov': 'Cruelty by husband or relatives: <mark class="hl" data-s="hl1"><b>Section 85, BNS</b></mark><span class="was was-line">formerly Section 498A, IPC</span>',
+    'x1.court': 'Supreme Court', 'x1.open': 'Open judgement',
+    'x2.st': 'Fetching the case status', 'x2.done': 'Updated from court records',
+    'x2.type': 'Title Suit 245/2024', 'x2.sample': 'Sample case', 'x2.case': 'Ramesh Prasad v. Sunita Devi', 'x2.court': 'Civil Judge (Senior Division) I, Patna',
+    'x2.stageK': 'Stage', 'x2.stage': 'Evidence', 'x2.orderK': 'Last order', 'x2.order': '28 Oct 2026 · PW-2 examined, listed for further evidence',
+    'x3.st': 'Checking the IPC to BNS mapping', 'x3.done': 'From the reviewed old to new mapping',
+    'f.name': 'Your name', 'f.namePh': 'e.g. Anjali Sinha', 'f.email': 'Email', 'f.wa': 'WhatsApp number', 'f.opt': 'Optional',
+    'f.role': 'I am', 'f.adv': 'Advocate', 'f.stu': 'Law student',
+    'f.consent': 'We’ll use your email, and your WhatsApp number if you add one, only to tell you when your access opens.', 'f.privacy': 'Privacy policy',
+    'e.name': 'Please enter your name.', 'e.email': 'Enter a valid email address.',
+    'e.wa': 'Enter a 10-digit Indian mobile number, or leave it empty.', 'e.role': 'Choose advocate or law student.',
+    'e.server': 'We couldn’t save that just now. Please try again in a minute.',
+    'e.offline': 'You seem to be offline. Check your connection and try again.', 'e.other': 'Something went wrong. Please try again.',
+    'd.new': 'You’re registered, {name}.', 'd.old': 'You’re already registered, {name}.',
+    'd.mail': 'We’ll email {email} when your access opens.', 'd.mailWa': 'We’ll email {email} and message you on WhatsApp when your access opens.',
+    'd.share': 'Tell a colleague on WhatsApp', 'd.shareText': 'Ley Legal: legal research for advocates, in English, Hindi or Hinglish. Join the waitlist: ',
+    'st.new': 'Registered', 'st.old': 'Already registered',
+  };
+  // ?lang= wins (links and comp shots), then the visitor's own earlier choice; English otherwise.
+  let L = 'en';
+  try { const q = qs.get('lang'); L = q === 'hi' || q === 'en' ? q : localStorage.getItem('ll_lang') === 'hi' ? 'hi' : 'en'; } catch {}
+  if (!HI.title) L = 'en';
+  const t = (k, vars) => {
+    const s = (L === 'hi' && HI[k]) || EN[k] || '';
+    return vars ? s.replace(/\{(\w+)\}/g, (_, v) => vars[v] ?? '') : s;
+  };
+  const orig = new WeakMap();
+  // Puts every marked line in scope into the current language. English comes back from what the page first had.
+  function apply(scope = document) {
+    for (const node of scope.querySelectorAll('[data-t],[data-t-label],[data-t-ph]')) {
+      if (!orig.has(node)) orig.set(node, { html: node.innerHTML, label: node.getAttribute('aria-label'), ph: node.getAttribute('placeholder') });
+      const o = orig.get(node), hi = L === 'hi';
+      if (node.dataset.t) node.innerHTML = (hi && HI[node.dataset.t]) || o.html;
+      if (node.dataset.tLabel) node.setAttribute('aria-label', (hi && HI[node.dataset.tLabel]) || o.label);
+      if (node.dataset.tPh) node.setAttribute('placeholder', (hi && HI[node.dataset.tPh]) || o.ph);
+    }
+  }
+  const titleEN = document.title;
+  root.lang = L;
+  if (L === 'hi') { document.title = HI.title; apply(); }
+
   /* ================= Shared helpers ================= */
   const seg = Intl.Segmenter ? new Intl.Segmenter('hi', { granularity: 'grapheme' }) : null;
   const graphemes = s => seg ? Array.from(seg.segment(s), x => x.segment) : Array.from(s);
@@ -57,10 +109,20 @@
   }
 
   /* ================= Headline: English, Hindi, Hinglish ================= */
-  const variants = $$('.rv');
-  variants.forEach(v => { v.innerHTML = v.textContent.trim().split(/\s+/).map((w, i) => `<span class="w" style="--i:${i}">${w}</span>`).join(' '); });
-  let vi = Math.min(Math.max(parseInt(qs.get('variant') || '0', 10), 0), variants.length - 1); // ?variant= is comp-only
-  variants[vi].classList.add('is-on');
+  // The rolling half of the headline. The page's own language leads.
+  const ROLL = {
+    en: [['en', 'in your language.'], ['hi', 'अपनी भाषा में।'], ['en', 'apni bhasha mein.']],
+    hi: [['hi', 'अपनी भाषा में।'], ['en', 'in your language.'], ['en', 'apni bhasha mein.']],
+  };
+  const roll = $('.roll');
+  let variants = [], vi = 0;
+  function buildRoll(start) {
+    roll.innerHTML = ROLL[L].map(([lang, s]) => `<span class="rv" lang="${lang}">${s.split(' ').map((w, i) => `<span class="w" style="--i:${i}">${w}</span>`).join(' ')}</span>`).join('');
+    variants = $$('.rv', roll);
+    vi = Math.min(Math.max(start, 0), variants.length - 1);
+    variants[vi].classList.add('is-on');
+  }
+  buildRoll(parseInt(qs.get('variant') || '0', 10) || 0); // ?variant= is comp-only
   if (!still) setInterval(() => {
     if (document.hidden) return;
     const cur = variants[vi];
@@ -115,10 +177,10 @@
     },
     async (tk, fin) => {
       const m = $('.m-tile span', tk), d = $('.m-tile b', tk), hl = $('.m-date', tk);
-      hl.classList.remove('on'); m.textContent = 'Nov'; d.textContent = '4';
-      if (fin) { m.textContent = 'Dec'; d.textContent = '18'; return hl.classList.add('on'); }
+      hl.classList.remove('on'); m.textContent = t('Nov'); d.textContent = '4';
+      if (fin) { m.textContent = t('Dec'); d.textContent = '18'; return hl.classList.add('on'); }
       await F.sleep(1000);
-      for (const [mm, dd] of CAL.slice(1)) { m.textContent = mm; d.textContent = dd; d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip'); await F.sleep(130); }
+      for (const [mm, dd] of CAL.slice(1)) { m.textContent = t(mm); d.textContent = dd; d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip'); await F.sleep(130); }
       await F.sleep(250); hl.classList.add('on'); await F.sleep(2000);
     },
     async (tk, fin) => {
@@ -279,20 +341,20 @@
   async function research() {
     setThread(`
       <div class="msg-user r" data-s="q" hidden>498A mein seedha arrest ho sakta hai?</div>
-      ${status('Reading your question')}
-      <div class="answer r" data-s="lead" hidden><b>No, not automatically.</b> Police must first meet the conditions in <b>Section 35, BNSS</b> <span class="was">(formerly 41 and 41A, CrPC)</span> and record their reasons.</div>
-      <div class="row r" data-s="prov" hidden><span class="k">Provision</span><span>Cruelty by husband or relatives: <mark class="hl" data-s="hl1"><b>Section 85, BNS</b></mark><span class="was was-line">formerly Section 498A, IPC</span></span></div>
+      ${status(t('x1.st1'))}
+      <div class="answer r" data-s="lead" hidden>${t('x1.lead')}</div>
+      <div class="row r" data-s="prov" hidden><span class="k">${t('x1.provK')}</span><span>${t('x1.prov')}</span></div>
       <div class="cite r" data-s="auth" hidden>
-        <div class="cite-main"><span class="k">Authority</span><span class="case-name">Arnesh Kumar v. State of Bihar</span><span class="citation">(2014) 8 SCC 273 · Supreme Court</span></div>
-        <div class="cite-chips"><span class="stamp" data-s="ok">${I.check}Checked</span><span class="chip chip-link">Open judgment ${I.ext}</span></div>
+        <div class="cite-main"><span class="k">${t('authority')}</span><span class="case-name" lang="en">Arnesh Kumar v. State of Bihar</span><span class="citation">(2014) 8 SCC 273 · <span class="court">${t('x1.court')}</span></span></div>
+        <div class="cite-chips"><span class="stamp" data-s="ok">${I.check}${t('checked')}</span><span class="chip chip-link">${t('x1.open')} ${I.ext}</span></div>
       </div>`);
     await wait(700);
     await type('498A mein seedha arrest ho sakta hai?');
     await wait(380); await submit();
     show('status'); await wait(800);
-    setStatus('Searching Supreme Court and High Court judgments'); await wait(1000);
-    setStatus('Checking each citation against its judgment'); await wait(900);
-    doneStatus('Citations checked');
+    setStatus(t('x1.st2')); await wait(1000);
+    setStatus(t('x1.st3')); await wait(900);
+    doneStatus(t('x1.done'));
     await stream('lead', 34); await wait(250);
     await stream('prov', 34);
     el('hl1').classList.add('on'); await wait(500);
@@ -302,23 +364,23 @@
   async function caseStatus() {
     setThread(`
       <div class="msg-user mono r" data-s="q" hidden><span class="tag">CNR</span>BRPT010024512024</div>
-      ${status('Looking up the case on eCourts')}
+      ${status(t('x2.st'))}
       <div class="record r" data-s="rec" hidden>
-        <div class="rec-top"><div class="rec-head"><span class="k">Title Suit 245/2024</span><span class="chip chip-muted">Sample case</span></div><div class="case-name">Ramesh Prasad v. Sunita Devi</div><div class="rec-court">Civil Judge (Senior Division) I, Patna</div></div>
-        <dl class="rec-rows"><div class="r" data-s="r1"><dt>Stage</dt><dd>Evidence</dd></div><div class="r" data-s="r2"><dt>Last order</dt><dd>28 Oct 2026 · PW-2 examined, listed for further evidence</dd></div></dl>
-        <div class="next r" data-s="next"><div class="tile"><span>Nov</span><b>4</b></div><div><span class="k">Next hearing</span><mark class="hl date" data-s="hl2">Fri, 18 Dec 2026</mark></div></div>
+        <div class="rec-top"><div class="rec-head"><span class="k">${t('x2.type')}</span><span class="chip chip-muted">${t('x2.sample')}</span></div><div class="case-name">${t('x2.case')}</div><div class="rec-court">${t('x2.court')}</div></div>
+        <dl class="rec-rows"><div class="r" data-s="r1"><dt>${t('x2.stageK')}</dt><dd>${t('x2.stage')}</dd></div><div class="r" data-s="r2"><dt>${t('x2.orderK')}</dt><dd>${t('x2.order')}</dd></div></dl>
+        <div class="next r" data-s="next"><div class="tile"><span>${t('Nov')}</span><b>4</b></div><div><span class="k">${t('next')}</span><mark class="hl date" data-s="hl2">${t('date')}</mark></div></div>
       </div>`);
     composer.classList.add('is-mono');
     await wait(600);
     await type('BRPT010024512024', { per: 55, onChar: s => { if (s.length === 4) cchip.hidden = false; } });
     await wait(380); await submit();
     show('status'); await wait(1100);
-    doneStatus('Updated from eCourts');
+    doneStatus(t('x2.done'));
     show('rec'); await wait(400); show('r1'); await wait(320); show('r2'); await wait(420);
     show('next'); await wait(300);
     const m = el('next').querySelector('.tile span'), d = el('next').querySelector('.tile b');
     for (const [mm, dd] of CAL) {
-      m.textContent = mm; d.textContent = dd;
+      m.textContent = t(mm); d.textContent = dd;
       if (!instant()) { d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip'); }
       await wait(95);
     }
@@ -327,7 +389,7 @@
   async function sections() {
     setThread(`
       <div class="msg-user r" data-s="q" lang="hi" hidden>IPC 302 का BNS में कौन-सा सेक्शन है?</div>
-      ${status('Matching against the IPC–BNS table')}
+      ${status(t('x3.st'))}
       <div class="map r" data-s="map" hidden>
         <div class="sec old"><span class="k">IPC · 1860</span><span class="num">302</span><span class="cap" lang="hi">हत्या के लिए दंड</span></div>
         <svg aria-hidden="true" focusable="false" class="arrow" viewBox="0 0 48 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h42"/><path d="m38 2 6 6-6 6"/></svg>
@@ -340,7 +402,7 @@
     await type('IPC 302 का BNS में कौन-सा सेक्शन है?', { per: 60 });
     await wait(380); await submit();
     show('status'); await wait(1000);
-    doneStatus('From the reviewed section table');
+    doneStatus(t('x3.done'));
     show('map'); await wait(450);
     el('map').classList.add('go'); await wait(350);
     flapTo(cells, '103(1)', instant()); await wait(instant() ? 0 : 900);
@@ -373,7 +435,7 @@
   function syncPause() {
     pauseBtn.classList.toggle('is-paused', P.user || P.frozen);
     pauseBtn.setAttribute('aria-pressed', String(P.user));
-    pauseBtn.setAttribute('aria-label', P.user ? 'Play the examples' : 'Pause the examples');
+    pauseBtn.setAttribute('aria-label', t(P.user ? 'pause.play' : 'pause.pause'));
   }
   pauseBtn.addEventListener('click', () => { if (P.frozen) { P.frozen = false; P.user = false; } else P.user = !P.user; syncPause(); });
   tabs.forEach((b, k) => b.addEventListener('click', () => { P.user = false; syncPause(); play(k, reduce ? { freeze: 'end' } : {}); }));
@@ -405,58 +467,78 @@
   }
 
   /* ================= Waitlist forms (dialog and closing block) → POST /api/waitlist ================= */
+  // Built in English with data-t keys; apply() then puts them in the page's language.
   const formHTML = p => `
     <form class="wl" novalidate>
       <div class="form-grid">
-        <div class="field"><label class="lab" for="${p}-name">Your name</label><input class="input" id="${p}-name" name="name" autocomplete="name" maxlength="80" placeholder="e.g. Anjali Sinha" aria-describedby="${p}-e-name"><p class="err" id="${p}-e-name" hidden></p></div>
-        <div class="field"><label class="lab" for="${p}-email">Email</label><input class="input" id="${p}-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="you@example.com" aria-describedby="${p}-e-email"><p class="err" id="${p}-e-email" hidden></p></div>
-        <fieldset class="field" aria-describedby="${p}-e-role"><legend>I am</legend><div class="seg"><label><input type="radio" name="role" value="advocate"><span>Advocate</span></label><label><input type="radio" name="role" value="student"><span>Law student</span></label></div><p class="err" id="${p}-e-role" hidden></p></fieldset>
-        <button class="btn-primary submit" type="submit"><span>Join the waitlist</span><svg aria-hidden="true" focusable="false" class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
+        <div class="field"><label class="lab" for="${p}-name" data-t="f.name">${EN['f.name']}</label><input class="input" id="${p}-name" name="name" autocomplete="name" maxlength="80" placeholder="${EN['f.namePh']}" data-t-ph="f.namePh" aria-describedby="${p}-e-name"><p class="err" id="${p}-e-name" hidden></p></div>
+        <div class="field"><label class="lab" for="${p}-email" data-t="f.email">${EN['f.email']}</label><input class="input" id="${p}-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="you@example.com" aria-describedby="${p}-e-email"><p class="err" id="${p}-e-email" hidden></p></div>
+        <div class="field"><label class="lab" for="${p}-wa"><span data-t="f.wa">${EN['f.wa']}</span> <span class="opt" data-t="f.opt">${EN['f.opt']}</span></label><div class="tel"><span class="cc">+91</span><input class="input" id="${p}-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="18" placeholder="98765 43210" aria-describedby="${p}-e-wa"></div><p class="err" id="${p}-e-wa" hidden></p></div>
+        <fieldset class="field" aria-describedby="${p}-e-role"><legend data-t="f.role">${EN['f.role']}</legend><div class="seg"><label><input type="radio" name="role" value="advocate"><span data-t="f.adv">${EN['f.adv']}</span></label><label><input type="radio" name="role" value="student"><span data-t="f.stu">${EN['f.stu']}</span></label></div><p class="err" id="${p}-e-role" hidden></p></fieldset>
+        <button class="btn-primary submit" type="submit"><span data-t="cta.join">${EN['cta.join']}</span><svg aria-hidden="true" focusable="false" class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
       </div>
       <input class="hp" type="text" name="ll_check" value="" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore aria-hidden="true">
       <p class="err form-err" id="${p}-e-form" role="alert" hidden></p>
-      <p class="consent">We’ll use your email only to tell you when your access opens. <a href="/privacy">Privacy policy</a></p>
+      <p class="consent"><span data-t="f.consent">${EN['f.consent']}</span> <a href="/privacy" data-t="f.privacy">${EN['f.privacy']}</a></p>
     </form>
     <div class="done" tabindex="-1" hidden>
-      <h3 class="done-title">You’re registered.</h3>
-      <p>We’ll email <span class="mono done-email"></span> when your access opens.</p>
+      <h3 class="done-title"></h3>
+      <p class="done-msg"></p>
       <div class="done-actions">
-        <a class="btn-ghost share" target="_blank" rel="noopener">Tell a colleague on WhatsApp</a>
-        <span class="stamp stamp-lg"><svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="stamp-text">Registered</span></span>
+        <a class="btn-ghost share" target="_blank" rel="noopener"></a>
+        <span class="stamp stamp-lg"><svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="stamp-text"></span></span>
       </div>
     </div>`;
   const EMAIL = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i; // same rule as api/waitlist.js
+  // WhatsApp is optional and Indian: takes 98765 43210, 098765…, 91…, +91…; gives +919876543210.
+  // '' = left empty, null = not a valid number. Same rule as api/waitlist.js.
+  const toWhatsApp = v => {
+    let d = String(v ?? '').replace(/[\s\-().]/g, '');
+    if (!d) return '';
+    d = d.replace(/^(\+|00)91(?=\d{10}$)/, '').replace(/^91(?=\d{10}$)/, '').replace(/^0(?=\d{10}$)/, '');
+    return /^[6-9]\d{9}$/.test(d) ? '+91' + d : null;
+  };
   const hosts = $$('[data-form]');
   let joined = null;
   function showJoined() {
     hosts.forEach(h => {
       $('form', h).hidden = true;
       const d = $('.done', h), first = joined.name.split(' ')[0];
-      $('.done-title', d).textContent = joined.already ? `You’re already registered, ${first}.` : `You’re registered, ${first}.`;
-      $('.stamp-text', d).textContent = joined.already ? 'Already registered' : 'Registered';
-      $('.done-email', d).textContent = joined.email;
-      $('.share', d).href = 'https://wa.me/?text=' + encodeURIComponent('Ley Legal: legal research for advocates, in English, Hindi or Hinglish. Join the waitlist: https://leylegal.in');
-      d.hidden = false; d.classList.add('in'); $('.stamp', d).classList.add('in');
+      $('.done-title', d).textContent = t(joined.already ? 'd.old' : 'd.new', { name: first });
+      const [before, after = ''] = t(joined.whatsapp ? 'd.mailWa' : 'd.mail').split('{email}');
+      const mail = document.createElement('span');
+      mail.className = 'mono done-email'; mail.textContent = joined.email;
+      $('.done-msg', d).replaceChildren(before, mail, after);
+      $('.stamp-text', d).textContent = t(joined.already ? 'st.old' : 'st.new');
+      const share = $('.share', d);
+      share.textContent = t('d.share');
+      share.href = 'https://wa.me/?text=' + encodeURIComponent(t('d.shareText') + SITE + (L === 'hi' ? '/?lang=hi' : ''));
+      if (d.hidden) { d.hidden = false; d.classList.add('in'); $('.stamp', d).classList.add('in'); }
     });
   }
   hosts.forEach(h => {
     const p = h.dataset.form;
     h.innerHTML = formHTML(p);
-    const form = $('form', h), nameIn = form.name, emailIn = form.email, segBox = $('.seg', form), formErr = $(`#${p}-e-form`);
-    const setErr = (input, id, msg) => { const e = $('#' + id); e.textContent = msg || ''; e.hidden = !msg; input.setAttribute('aria-invalid', msg ? 'true' : 'false'); };
-    const showFormErr = msg => { formErr.textContent = msg || ''; formErr.hidden = !msg; };
+    apply(h);
+    const form = $('form', h), nameIn = form.name, emailIn = form.email, waIn = form.whatsapp, segBox = $('.seg', form), formErr = $(`#${p}-e-form`);
+    // Errors hold a key, not text, so they can change language while showing.
+    const setErr = (input, id, key) => { const e = $('#' + id); e.dataset.k = key || ''; e.textContent = key ? t(key) : ''; e.hidden = !key; input.setAttribute('aria-invalid', key ? 'true' : 'false'); };
+    const showFormErr = key => { formErr.dataset.k = key || ''; formErr.textContent = key ? t(key) : ''; formErr.hidden = !key; };
     nameIn.addEventListener('input', () => nameIn.getAttribute('aria-invalid') === 'true' && setErr(nameIn, `${p}-e-name`));
     emailIn.addEventListener('input', () => emailIn.getAttribute('aria-invalid') === 'true' && setErr(emailIn, `${p}-e-email`));
+    waIn.addEventListener('input', () => waIn.getAttribute('aria-invalid') === 'true' && setErr(waIn, `${p}-e-wa`));
     segBox.addEventListener('change', () => setErr(segBox, `${p}-e-role`));
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const name = nameIn.value.trim().replace(/\s+/g, ' ');
       const email = emailIn.value.trim().toLowerCase();
+      const whatsapp = toWhatsApp(waIn.value);
       const role = form.role.value;
       showFormErr('');
-      setErr(nameIn, `${p}-e-name`, name.length < 2 ? 'Please enter your name.' : '');
-      setErr(emailIn, `${p}-e-email`, EMAIL.test(email) ? '' : 'Enter a valid email address.');
-      setErr(segBox, `${p}-e-role`, role ? '' : 'Choose advocate or law student.');
+      setErr(nameIn, `${p}-e-name`, name.length < 2 ? 'e.name' : '');
+      setErr(emailIn, `${p}-e-email`, EMAIL.test(email) ? '' : 'e.email');
+      setErr(waIn, `${p}-e-wa`, whatsapp === null ? 'e.wa' : '');
+      setErr(segBox, `${p}-e-role`, role ? '' : 'e.role');
       const bad = form.querySelector('[aria-invalid="true"]');
       if (bad) { (bad === segBox ? $('input', segBox) : bad).focus(); return; }
       const btn = $('.submit', form);
@@ -465,26 +547,24 @@
         let res, data = {};
         try {
           // The bot trap (ll_check) goes to the server, which decides; the browser never drops a sign-up silently.
-          res = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, role, trap: form.ll_check.value }) });
+          res = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, whatsapp, role, trap: form.ll_check.value }) });
           data = await res.json().catch(() => ({}));
         } catch { res = null; }
         if (res && res.status === 400 && data.fields) {
           // The server's checks match the ones above; show whatever it caught.
-          if (data.fields.name) setErr(nameIn, `${p}-e-name`, data.fields.name);
-          if (data.fields.email) setErr(emailIn, `${p}-e-email`, data.fields.email);
-          if (data.fields.role) setErr(segBox, `${p}-e-role`, data.fields.role);
+          if (data.fields.name) setErr(nameIn, `${p}-e-name`, 'e.name');
+          if (data.fields.email) setErr(emailIn, `${p}-e-email`, 'e.email');
+          if (data.fields.whatsapp) setErr(waIn, `${p}-e-wa`, 'e.wa');
+          if (data.fields.role) setErr(segBox, `${p}-e-role`, 'e.role');
           return;
         }
-        if (!res || !res.ok) {
-          showFormErr(res ? 'We couldn’t save that just now. Please try again in a minute.' : 'You seem to be offline. Check your connection and try again.');
-          return;
-        }
-        joined = { name, email, already: data.status === 'exists' };
+        if (!res || !res.ok) return showFormErr(res ? 'e.server' : 'e.offline');
+        joined = { name, email, whatsapp, already: data.status === 'exists' };
         showJoined();
         $('.done', h).focus();
       } catch (err) {
         console.error(err);
-        showFormErr('Something went wrong. Please try again.');
+        showFormErr('e.other');
       } finally {
         btn.removeAttribute('aria-busy');
       }
@@ -505,4 +585,26 @@
     $('[data-close]', d).addEventListener('click', () => d.close());
     d.addEventListener('click', e => { if (e.target === d) d.close(); });
   });
+
+  /* ================= Language switch (top bar): English ⇄ हिंदी ================= */
+  const langBtns = $$('.lang-b');
+  const syncLang = () => langBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === L)));
+  function setLang(next) {
+    if (next === L) return;
+    L = next;
+    root.lang = L;
+    document.title = L === 'hi' ? HI.title : titleEN;
+    apply();
+    buildRoll(0);
+    syncLang(); syncPause();
+    $$('.err').forEach(e => { if (e.dataset.k) e.textContent = t(e.dataset.k); });
+    if (joined) showJoined();
+    if (!view || view === 'demo') play(P.scene, { freeze: reduce || P.frozen ? 'end' : null }); // the example restarts in the new language
+    try { localStorage.setItem('ll_lang', L); } catch {}
+    if (!reduce) $$('.hero-copy, .story-head, .layers, .demo-head, .reel, .trust, .close-card, .foot').forEach(n => n.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' }));
+  }
+  if (HI.title) langBtns.forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+  else $('.lang').hidden = true; // hi.js didn't load: offer English only
+  syncLang(); syncPause();
+  root.classList.remove('t-wait');
 })();

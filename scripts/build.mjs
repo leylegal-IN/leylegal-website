@@ -34,7 +34,7 @@ await swap('index.html', [
   ['<meta property="og:image" content="https://leylegal.in/og.png">', `<meta property="og:image" content="${here}/og.png">`],
 ]);
 // The WhatsApp "tell a colleague" message links to the production site.
-await swap('app.js', [["Join the waitlist: https://leylegal.in'", `Join the waitlist: ${home}'`]]);
+await swap('app.js', [["const SITE = 'https://leylegal.in';", `const SITE = '${home}';`]]);
 
 await writeFile(join(dir, 'robots.txt'), production
   ? `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${home}/sitemap.xml\n`
