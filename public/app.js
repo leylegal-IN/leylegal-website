@@ -413,16 +413,16 @@
         <fieldset class="field" aria-describedby="${p}-e-role"><legend>I am</legend><div class="seg"><label><input type="radio" name="role" value="advocate"><span>Advocate</span></label><label><input type="radio" name="role" value="student"><span>Law student</span></label></div><p class="err" id="${p}-e-role" hidden></p></fieldset>
         <button class="btn-primary submit" type="submit"><span>Join the waitlist</span><svg aria-hidden="true" focusable="false" class="arw" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="spin"></span></button>
       </div>
-      <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input class="hp" type="text" name="ll_check" value="" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore aria-hidden="true">
       <p class="err form-err" id="${p}-e-form" role="alert" hidden></p>
       <p class="consent">We’ll use your email only to tell you when your access opens. <a href="/privacy">Privacy policy</a></p>
     </form>
     <div class="done" tabindex="-1" hidden>
-      <h3 class="done-title">You’re on the list.</h3>
+      <h3 class="done-title">You’re registered.</h3>
       <p>We’ll email <span class="mono done-email"></span> when your access opens.</p>
       <div class="done-actions">
         <a class="btn-ghost share" target="_blank" rel="noopener">Tell a colleague on WhatsApp</a>
-        <span class="stamp stamp-lg"><svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Received</span>
+        <span class="stamp stamp-lg"><svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="stamp-text">Registered</span></span>
       </div>
     </div>`;
   const EMAIL = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i; // same rule as api/waitlist.js
@@ -432,7 +432,8 @@
     hosts.forEach(h => {
       $('form', h).hidden = true;
       const d = $('.done', h), first = joined.name.split(' ')[0];
-      $('.done-title', d).textContent = joined.already ? `You’re already on the list, ${first}.` : `You’re on the list, ${first}.`;
+      $('.done-title', d).textContent = joined.already ? `You’re already registered, ${first}.` : `You’re registered, ${first}.`;
+      $('.stamp-text', d).textContent = joined.already ? 'Already registered' : 'Registered';
       $('.done-email', d).textContent = joined.email;
       $('.share', d).href = 'https://wa.me/?text=' + encodeURIComponent('Ley Legal: legal research for advocates, in English, Hindi or Hinglish. Join the waitlist: https://leylegal.in');
       d.hidden = false; d.classList.add('in'); $('.stamp', d).classList.add('in');
@@ -458,29 +459,35 @@
       setErr(segBox, `${p}-e-role`, role ? '' : 'Choose advocate or law student.');
       const bad = form.querySelector('[aria-invalid="true"]');
       if (bad) { (bad === segBox ? $('input', segBox) : bad).focus(); return; }
-      if (form.company.value) return; // honeypot: bots fill it, people never see it
       const btn = $('.submit', form);
       btn.setAttribute('aria-busy', 'true');
-      let res, data = {};
       try {
-        res = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, role }) });
-        data = await res.json().catch(() => ({}));
-      } catch { res = null; }
-      btn.removeAttribute('aria-busy');
-      if (res && res.status === 400 && data.fields) {
-        // The server's checks match the ones above; show whatever it caught.
-        if (data.fields.name) setErr(nameIn, `${p}-e-name`, data.fields.name);
-        if (data.fields.email) setErr(emailIn, `${p}-e-email`, data.fields.email);
-        if (data.fields.role) setErr(segBox, `${p}-e-role`, data.fields.role);
-        return;
+        let res, data = {};
+        try {
+          // The bot trap (ll_check) goes to the server, which decides; the browser never drops a sign-up silently.
+          res = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, role, trap: form.ll_check.value }) });
+          data = await res.json().catch(() => ({}));
+        } catch { res = null; }
+        if (res && res.status === 400 && data.fields) {
+          // The server's checks match the ones above; show whatever it caught.
+          if (data.fields.name) setErr(nameIn, `${p}-e-name`, data.fields.name);
+          if (data.fields.email) setErr(emailIn, `${p}-e-email`, data.fields.email);
+          if (data.fields.role) setErr(segBox, `${p}-e-role`, data.fields.role);
+          return;
+        }
+        if (!res || !res.ok) {
+          showFormErr(res ? 'We couldn’t save that just now. Please try again in a minute.' : 'You seem to be offline. Check your connection and try again.');
+          return;
+        }
+        joined = { name, email, already: data.status === 'exists' };
+        showJoined();
+        $('.done', h).focus();
+      } catch (err) {
+        console.error(err);
+        showFormErr('Something went wrong. Please try again.');
+      } finally {
+        btn.removeAttribute('aria-busy');
       }
-      if (!res || !res.ok) {
-        showFormErr(res ? 'We couldn’t save that just now. Please try again in a minute.' : 'You seem to be offline. Check your connection and try again.');
-        return;
-      }
-      joined = { name, email, already: data.status === 'exists' };
-      showJoined();
-      $('.done', h).focus();
     });
   });
 

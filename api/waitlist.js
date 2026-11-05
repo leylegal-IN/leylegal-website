@@ -14,7 +14,8 @@ export default async function handler(req, res) {
   try { body = await readJSON(req); } catch { return sendJSON(res, 400, { error: 'bad_json' }); }
 
   // Honeypot: real people never see this field, so a filled one is a bot. Answer as if it worked.
-  if (body?.company) return sendJSON(res, 200, { status: 'saved' });
+  // The field is named ll_check (sent as "trap") so browser autofill and password managers leave it empty.
+  if (body?.trap || body?.company) return sendJSON(res, 200, { status: 'saved' });
 
   const name = String(body?.name ?? '').replace(/[\u0000-\u001f\u007f]/g, '').replace(/\s+/g, ' ').trim();
   const email = String(body?.email ?? '').trim().toLowerCase();
